@@ -45,7 +45,7 @@
 				<button type="submit" name="login" id="sign_in" class="btn btn-outline-primary btn-lg btn-block">Login</button>
 			</form>
 			<br/>
-			<a class="btn btn-outline-primary btn-lg btn-block" href="signup.php">Register</a>
+			<a class="btn btn-outline-primary btn-lg btn-block" href="signup.php"><?php echo $lang['REGISTER']; ?></a>
 
 		</div>
 

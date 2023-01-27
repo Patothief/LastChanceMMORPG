@@ -4,7 +4,7 @@
     include('config/db.php');
 	include_once 'controllers/language.php';
 	
-    global $wrongPwdErr, $accountNotExistErr, $emailPwdErr, $verificationRequiredErr, $email_empty_err, $pass_empty_err;
+    global $accountNotExistErr, $emailPwdErr, $verificationRequiredErr, $email_empty_err, $pass_empty_err;
 
     if(isset($_POST['login'])) {
         $email_signin        = $_POST['email_signin'];
@@ -24,12 +24,7 @@
            die("SQL query failed: " . mysqli_error($connection));
         }
 
-        if(!empty($email_signin) && !empty($password_signin)){
-            if(!preg_match("/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{6,20}$/", $pswd)) {
-                $wrongPwdErr = '<div class="alert alert-danger">
-                        Password should be between 6 to 20 charcters long, contains atleast one special chacter, lowercase, uppercase and a digit.
-                    </div>';
-            }
+        if(!empty($email_signin) && !empty($password_signin)) {
             // Check if email exist
             if($rowCount <= 0) {
                 $accountNotExistErr = '<div class="alert alert-danger">
@@ -82,9 +77,7 @@
 
         } else {
             if(empty($email_signin)){
-                $email_empty_err = "<div class='alert alert-danger email_alert'>
-                            Email not provided.
-                    </div>";
+                $email_empty_err = "<div class='alert alert-danger email_alert'>Email not provided.</div>";
             }
             
             if(empty($password_signin)){
