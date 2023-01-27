@@ -2,6 +2,7 @@
    
     // Database connection
     include('config/db.php');
+	include_once 'controllers/language.php';
 
     // Swiftmailer lib
     require_once './lib/vendor/autoload.php';
@@ -14,11 +15,8 @@
     $_player_name = $_email = $_password = "";
 
 	$playerNameRegexp = "/^[a-zA-Z0-9_.-]{5,15}$/";
-	$playerNameRegexpError = "Only letters and numbers allowed. 5 to 15 characters long.";
-	
 	//$passwordRegexp = "/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,20}$/"
 	$passwordRegexp = "/^[a-zA-Z0-9_.*#$%&!-]{6,20}$/";
-	$passwordRegexpError = "Password should be between 6 to 20 charcters long.";
 	
     if(isset($_POST["submit"])) {
         $playername    = $_POST["playername"];
@@ -49,7 +47,7 @@
 
                 // perform validation
                 if(!preg_match($playerNameRegexp, $_player_name)) {
-                    $f_NameErr = '<div class="alert alert-danger">' . $playerNameRegexpError . '</div>';
+                    $f_NameErr = '<div class="alert alert-danger">' . $lang['PLAYER_NAME_REGEXP_ERROR'] . '</div>';
                 }
                 if(!filter_var($_email, FILTER_VALIDATE_EMAIL)) {
                     $_emailErr = '<div class="alert alert-danger">
@@ -62,7 +60,7 @@
                 //        </div>';
                 //}
                 if(!preg_match($passwordRegexp, $_password)) {
-                    $_passwordErr = '<div class="alert alert-danger">' . $passwordRegexpError . '</div>';
+                    $_passwordErr = '<div class="alert alert-danger">' . $lang['PASSWORD_REGEXP_ERROR'] . '</div>';
                 }
 				
                 // Store the data in db, if all the preg_match condition met
@@ -92,7 +90,7 @@
                         $msg = 'Hey ' . $playername . ',<br/>' .
 								'You are almost ready to start enjoying Last Chance MMORPG. <br/>' .
 								'Simply click the link below to verify your email address.<br/><br/>' .
-								'<a href="http://' . $_SERVER['HTTP_HOST'] . '/last-chance/user_verificaiton.php?token=' . $token . '"> Click here to verify email</a>';
+								'<a href="http://' . $_SERVER['HTTP_HOST'] . '/LastChanceMMORPG/user_verificaiton.php?token=' . $token . '">Click here to verify email</a>';
 
                         // Create the Transport
                         $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
@@ -104,7 +102,7 @@
 
                         // Create a message
                         $message = (new Swift_Message('Last Chance MMORPG verification email'))
-                        ->setFrom([$email => $playername])
+                        ->setFrom([$email => "Last Chance MMORPG"])
                         ->setTo($email)
                         ->addPart($msg, "text/html")
                         ->setBody('User');

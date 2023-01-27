@@ -22,7 +22,10 @@ $lang['NOTHING_FOUND'] = 'You found nothing. Absolutely nothing.';
 $lang['FOUND'] = 'Found ';
 $lang['FOOD_FOUND'] = ' food';
 $lang['FUEL_FOUND'] = ' fuel';
-
+$lang['REGISTER'] = 'Register';
+$lang['BACK_TO_LOGIN'] = 'Back to Login';
+$lang['PASSWORD_REGEXP_ERROR'] = 'Password should be between 6 to 20 charcters long.';
+$lang['PLAYER_NAME_REGEXP_ERROR'] = 'Only letters and numbers allowed. 5 to 15 characters long.';
 
 
 

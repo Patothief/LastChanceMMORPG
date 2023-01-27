@@ -48,17 +48,17 @@ include_once './controllers/language.php';
 			</div>
 
 			<div class="form-group">
-				<label>Password</label>
+				<label><?php echo $lang['PASSWORD']; ?></label>
 				<input type="password" class="form-control" name="password" id="password" />
 
 				<?php echo $_passwordErr; ?>
 				<?php echo $passwordEmptyErr; ?>
 			</div>
 
-			<button type="submit" name="submit" id="submit" class="btn btn-outline-primary btn-lg btn-block">Register</button>
+			<button type="submit" name="submit" id="submit" class="btn btn-outline-primary btn-lg btn-block"><?php echo $lang['REGISTER']; ?></button>
 		</form>
 		<br/>
-		<a class="btn btn-outline-primary btn-lg btn-block" href="index.php">Back to Login</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="index.php"><?php echo $lang['BACK_TO_LOGIN']; ?></a>
 	</div>
 
 </body>
