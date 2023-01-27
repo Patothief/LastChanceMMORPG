@@ -53,3 +53,54 @@ html {
   margin: auto;
   background: #ffffff;
 }
+
+#container {
+	height: 500px;
+}
+	
+.inner_div {
+	background: white;
+	overflow: auto;
+	height: 500px;
+}
+
+.message {
+	color: white;
+	padding: 10px;
+	margin-bottom: 10px;
+	max-width: 90%;
+	border-radius: 5px;
+}
+
+.item_left {
+	margin-left: 15px;
+	float: left;
+	clear: both;		
+}
+
+.item_right {
+	margin-right: 15px;
+	float: right;
+	clear: both;
+}
+
+.message.item_left {
+	background-color: #58b666;
+}
+
+.message.item_right {
+	background-color: #6fbced;
+}
+
+.message_info {
+	font-size: 13px;
+}
+
+.input_area {
+	padding: 20px;
+	background-color: #622569;
+	display: flex;
+	justify-content: right;
+	grid-auto-flow: column;
+	grid-column-gap: 10px;
+}
