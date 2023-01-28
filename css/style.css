@@ -57,11 +57,17 @@ html {
 #container {
 	height: 500px;
 }
-	
+
+#chatbox {
+	padding: 5px;
+}
+
 .inner_div {
-	background: white;
+	padding: 5px 5px 5px 5px;
 	overflow: auto;
 	height: 500px;
+	background-color: black;
+	border-radius: 20px;
 }
 
 .message {
@@ -94,13 +100,14 @@ html {
 
 .message_info {
 	font-size: 13px;
+	color: white;
 }
 
 .input_area {
-	padding: 20px;
-	background-color: #622569;
+	padding: 15px;
 	display: flex;
 	justify-content: right;
 	grid-auto-flow: column;
 	grid-column-gap: 10px;
+	border-radius: 20px;
 }

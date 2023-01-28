@@ -75,8 +75,8 @@
                     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
                     // Query
-                    $sql = "INSERT INTO users (playername, email, password, token, is_active, date_time, actions, fuel, food) 
-					VALUES ('{$playername}', '{$email}', '{$password_hash}', '{$token}', '0', now(), 30, 0, 0)";
+                    $sql = "INSERT INTO users (playername, email, password, token, is_active, actions, fuel, food) 
+					VALUES ('{$playername}', '{$email}', '{$password_hash}', '{$token}', '0', 30, 0, 0)";
                     
                     // Create mysql query
                     $sqlQuery = mysqli_query($connection, $sql);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2023 at 10:30 PM
+-- Generation Time: Jan 28, 2023 at 09:03 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -11,41 +11,47 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
--- Database: lastchancemmorpg
+-- Database: `lastchancemmorpg`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table chat
+-- Table structure for table `chat`
 --
 
-CREATE TABLE chat (
-  id int(11) NOT NULL,
-  player_id int(11) NOT NULL,
-  rocket_id int(11) DEFAULT NULL,
-  message varchar(200) NOT NULL,
-  time varchar(50) NOT NULL
+CREATE TABLE `chat` (
+  `id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `rocket_id` int(11) DEFAULT NULL,
+  `message` varchar(200) NOT NULL,
+  `time_created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table users
+-- Table structure for table `users`
 --
 
-CREATE TABLE users (
-  id int(11) NOT NULL,
-  playername varchar(100) NOT NULL,
-  email varchar(50) NOT NULL,
-  password varchar(255) NOT NULL,
-  token varchar(255) NOT NULL,
-  is_active enum('0','1') NOT NULL,
-  date_time date NOT NULL,
-  actions int(11) NOT NULL,
-  fuel int(11) NOT NULL,
-  food int(11) NOT NULL
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `playername` varchar(100) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `is_active` enum('0','1') NOT NULL,
+  `time_created` datetime NOT NULL DEFAULT current_timestamp(),
+  `actions` int(11) NOT NULL,
+  `fuel` int(11) NOT NULL,
+  `food` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -53,38 +59,38 @@ CREATE TABLE users (
 --
 
 --
--- Indexes for table chat
+-- Indexes for table `chat`
 --
-ALTER TABLE chat
-  ADD PRIMARY KEY (id);
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table users
+-- Indexes for table `users`
 --
-ALTER TABLE users
-  ADD PRIMARY KEY (id);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table chat
+-- AUTO_INCREMENT for table `chat`
 --
-ALTER TABLE chat
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table users
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE users
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 DELIMITER $$
 --
 -- Events
 --
-CREATE DEFINER=root@localhost EVENT Wipe ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:51:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
+CREATE DEFINER=`root`@`localhost` EVENT `Wipe` ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:51:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
 
 UPDATE game_state SET state=2;
 
@@ -92,11 +98,15 @@ TRUNCATE TABLE users;
 
 END$$
 
-CREATE DEFINER=root@localhost EVENT `Add actions` ON SCHEDULE EVERY 1 HOUR STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE users SET actions = 30$$
+CREATE DEFINER=`root`@`localhost` EVENT `Add actions` ON SCHEDULE EVERY 1 HOUR STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE users SET actions = 30$$
 
-CREATE DEFINER=root@localhost EVENT EndGame ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:54:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=1$$
+CREATE DEFINER=`root`@`localhost` EVENT `EndGame` ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:54:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=1$$
 
-CREATE DEFINER=root@localhost EVENT Asteroid ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=3$$
+CREATE DEFINER=`root`@`localhost` EVENT `Asteroid` ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=3$$
 
 DELIMITER ;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
