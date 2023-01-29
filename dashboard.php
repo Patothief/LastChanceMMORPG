@@ -1,6 +1,6 @@
 <?php 
-include('config/db.php');
-include_once 'controllers/language.php';
+include 'config/db.php';
+include_once 'language.php';
 ?>
 
 <!doctype html>
@@ -10,7 +10,7 @@ include_once 'controllers/language.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Last Chance MMORPG</title>
     <!-- jQuery + Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -60,7 +60,7 @@ include_once 'controllers/language.php';
 
 		<br/>
 
-		<label id="labelMessage"><?php echo $_SESSION['message'] ?></label>
+		<label id="labelMessage"><?php if (isset($_SESSION['message'])) echo $_SESSION['message']; ?></label>
 	</div>
 
 	<br/>
@@ -119,7 +119,7 @@ function addChatLine(message) {
 	$("#message").val("");
 	
   	var request = $.ajax({
-   		url: 'controllers/chat.php',
+   		url: 'chat.php',
    		type: 'get',
 		data: { 
 			message: message
@@ -137,7 +137,7 @@ function addChatLine(message) {
 
 function refreshChat() {
   	var request = $.ajax({
-   		url: 'controllers/chat.php',
+   		url: 'chat.php',
    		type: 'get'
 	});
  	

@@ -1,9 +1,9 @@
 <?php 
 
-include('config/db.php');
-include_once 'controllers/language.php';
+include 'config/db.php';
+include_once 'language.php';
 
-$query = "SELECT actions, fuel, food FROM users WHERE email = '" . $_SESSION['email'] . "'";
+$query = "SELECT actions, fuel, food FROM player WHERE playername = '" . $_SESSION['playername'] . "'";
 $result = mysqli_query($connection, $query);
 
 $actions = 0;
@@ -28,11 +28,18 @@ if ($actions <= 0) {
 	$searchAmount = 0;
 	
 	if ($randomValue == 0) { // found nothing
-		$message = $lang['NOTHING_FOUND'];
+		$sql = "UPDATE player SET actions = actions - 1 WHERE playername = '" . $_SESSION['playername'] . "'";
+
+		if ($connection->query($sql) === TRUE) {
+			$message = $lang['NOTHING_FOUND'];
+			$actions = $actions - 1;
+		} else {
+			$message = "Error updating record: " . $connection->error;
+		}
 	} elseif ($randomValue < 11) { // found food
 		$searchAmount = $randomValue;
 		
-		$sql = "UPDATE users SET food = food + " . $searchAmount . ", actions = actions - 1 WHERE email = '" . $_SESSION['email'] . "'";
+		$sql = "UPDATE player SET food = food + " . $searchAmount . ", actions = actions - 1 WHERE playername = '" . $_SESSION['playername'] . "'";
 
 		if ($connection->query($sql) === TRUE) {
 			$message = $lang['FOUND'] . $searchAmount . $lang['FOOD_FOUND'];
@@ -45,7 +52,7 @@ if ($actions <= 0) {
 	} elseif ($randomValue < 14) { // found fuel
 		$searchAmount = $randomValue;
 		
-		$sql = "UPDATE users SET fuel = fuel + " . $searchAmount . ", actions = actions - 1 WHERE email = '" . $_SESSION['email'] . "'";
+		$sql = "UPDATE player SET fuel = fuel + " . $searchAmount . ", actions = actions - 1 WHERE playername = '" . $_SESSION['playername'] . "'";
 
 		if ($connection->query($sql) === TRUE) {
 			$message = $lang['FOUND'] . $searchAmount . $lang['FUEL_FOUND'];
@@ -58,7 +65,7 @@ if ($actions <= 0) {
 	} elseif ($randomValue < 15) { // found a loot of food
 		$searchAmount = 100;
 		
-		$sql = "UPDATE users SET food = food + " . $searchAmount . ", actions = actions - 1 WHERE email = '" . $_SESSION['email'] . "'";
+		$sql = "UPDATE player SET food = food + " . $searchAmount . ", actions = actions - 1 WHERE playername = '" . $_SESSION['playername'] . "'";
 
 		if ($connection->query($sql) === TRUE) {
 			$message = $lang['FOUND'] . $searchAmount . $lang['FOOD_FOUND'];
@@ -71,7 +78,7 @@ if ($actions <= 0) {
 	} else { // found a loot of fuel
 		$searchAmount = 100;
 		
-		$sql = "UPDATE users SET fuel = fuel + " . $searchAmount . ", actions = actions - 1 WHERE email = '" . $_SESSION['email'] . "'";
+		$sql = "UPDATE player SET fuel = fuel + " . $searchAmount . ", actions = actions - 1 WHERE playername = '" . $_SESSION['playername'] . "'";
 
 		if ($connection->query($sql) === TRUE) {
 			$message = $lang['FOUND'] . $searchAmount . $lang['FUEL_FOUND'];

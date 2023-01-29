@@ -14,8 +14,8 @@
 
 	<body>
 		<?php 
-		include('./controllers/login.php');
-		include_once './controllers/language.php';		
+		include('login.php');
+		include_once 'language.php';		
 		?>
 
 		<div class="languagebar">
@@ -26,26 +26,20 @@
 		<div class="vertical-center">
 
 			<form action="" method="post">
-				<?php echo $accountNotExistErr; ?>
-				<?php echo $emailPwdErr; ?>
-				<?php echo $verificationRequiredErr; ?>
-				<?php echo $email_empty_err; ?>
-				<?php echo $pass_empty_err; ?>
-
 				<div class="form-group">
-					<label>Email</label>
-					<input type="email" class="form-control" name="email_signin" id="email_signin" />
+					<label><?php echo $lang['PLAYERNAME']; ?></label>
+					<input type="playername" class="form-control" name="playername_signin" id="playername_signin" />
+					<?php echo $playernameErr; ?>
 				</div>
 
 				<div class="form-group">
 					<label><?php echo $lang['PASSWORD']; ?></label>
 					<input type="password" class="form-control" name="password_signin" id="password_signin" />
+					<?php echo $passwordErr; ?>					
 				</div>
 
 				<button type="submit" name="login" id="sign_in" class="btn btn-outline-primary btn-lg btn-block">Login</button>
 			</form>
-			<br/>
-			<a class="btn btn-outline-primary btn-lg btn-block" href="signup.php"><?php echo $lang['REGISTER']; ?></a>
 
 		</div>
 
