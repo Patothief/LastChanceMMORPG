@@ -14,7 +14,7 @@
 
 	<body>
 		<?php 
-		include('login.php');
+		include 'login.php';
 		include_once 'language.php';		
 		?>
 
@@ -28,17 +28,17 @@
 			<form action="" method="post">
 				<div class="form-group">
 					<label><?php echo $lang['PLAYERNAME']; ?></label>
-					<input type="playername" class="form-control" name="playername_signin" id="playername_signin" />
+					<input type="playername" class="form-control" name="playername_signin" />
 					<?php echo $playernameErr; ?>
 				</div>
 
 				<div class="form-group">
 					<label><?php echo $lang['PASSWORD']; ?></label>
-					<input type="password" class="form-control" name="password_signin" id="password_signin" />
+					<input type="password" class="form-control" name="password_signin" />
 					<?php echo $passwordErr; ?>					
 				</div>
 
-				<button type="submit" name="login" id="sign_in" class="btn btn-outline-primary btn-lg btn-block">Login</button>
+				<button type="submit" name="login" class="btn btn-outline-primary btn-lg btn-block">Login</button>
 			</form>
 
 		</div>

@@ -111,3 +111,7 @@ html {
 	grid-column-gap: 10px;
 	border-radius: 20px;
 }
+
+#countdownLabel {
+	color: red;
+}

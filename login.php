@@ -53,6 +53,8 @@
 				$_SESSION['fuel'] = $row['fuel'];
 				$_SESSION['food'] = $row['food'];
 
+				loadNextDate();
+				
 				header("Location: dashboard.php");
             } else {
 				$row = mysqli_fetch_array($query);
@@ -64,6 +66,8 @@
 					$_SESSION['fuel'] = $row['fuel'];
 					$_SESSION['food'] = $row['food'];
 					
+					loadNextDate();
+
 					header("Location: dashboard.php");
 				} else {
 					$passwordErr = '<div class="alert alert-danger">Password is incorrect.</div>';					
@@ -71,4 +75,14 @@
 			}
         }
     }
+	
+function loadNextDate() {
+	$sql = "SELECT next_date FROM game_state";
+	
+	$query = mysqli_query($connection, $sql);
+	$row = mysqli_fetch_array($query);
+	
+	$_SESSION['next_date'] = $row['next_date'];
+};
+
 ?>    
