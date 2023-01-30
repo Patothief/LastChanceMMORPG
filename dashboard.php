@@ -17,7 +17,7 @@ include_once 'language.php';
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 
-<body onload="addChatLine()">
+<body>
 	<div class="languagebar">
 		<a href="?lang=en"><img src="images/en.png" title="English"/></a>
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
@@ -90,6 +90,8 @@ include_once 'language.php';
 </html>
 
 <script>
+var countDownDate;
+
 function search() {
 
   	var request = $.ajax({
@@ -132,7 +134,6 @@ function addChatLine(message) {
 		var element = document.getElementById("chatlist");
 		element.scrollTop = element.scrollHeight;
  	});
-
 }
 
 setInterval(function refreshChat() {
@@ -147,34 +148,58 @@ setInterval(function refreshChat() {
 }, 5000);
 
 
+// read next date
+function readNextDate() {
+  	var request = $.ajax({
+   		url: 'gameState.php',
+   		type: 'get',
+   		dataType: 'json'		
+	});
+ 	
+ 	request.done( function ( data ) {
+		// Set the date we're counting down to
+		countDownDate = new Date(Date.parse(data[0].next_date));
+ 	});
+}
+setInterval(readNextDate, 10000);
 
-// Set the date we're counting down to
-var countDownDate = <?php echo $_SESSION['next_date'] ?>;//new Date("Jan 5, 2024 15:37:25").getTime();
+readNextDate();
 
-// Update the count down every 1 second
-var x = setInterval(function() {
+// refresh countdown label
+function refreshCountdownLabel() {
+	// Get today's date and time
+	var now = new Date().getTime();
 
-  // Get today's date and time
-  var now = new Date().getTime();
+	// Find the distance between now and the count down date
+	var distance = countDownDate - now;
 
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
+	// Time calculations for days, hours, minutes and seconds
+	var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	// Display the result in the element with id="countdownLabel"
+	
+	var countDownText;
+	
+	if (days > 0) {
+		countDownText = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+	} else if (hours > 0) {
+		countDownText = hours + "h " + minutes + "m " + seconds + "s ";
+	} else if (minutes > 0) {
+		countDownText = minutes + "m " + seconds + "s ";
+	} else if (seconds > 0) {
+		countDownText = seconds + "s ";
+	} else {
+		//clearInterval(y);
+		countDownText = "0s";
+	}
+	
+	document.getElementById("countdownLabel").innerHTML =  countDownText;
+}
+var y = setInterval(refreshCountdownLabel, 1000);
 
-  // Display the result in the element with id="countdownLabel"
-  document.getElementById("countdownLabel").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
 
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("countdownLabel").innerHTML = "EXPIRED";
-  }
-}, 1000);
 
 </script>

@@ -1,48 +1,48 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-CREATE TABLE `chat` (
-  `id` int(11) NOT NULL,
-  `player_id` int(11) NOT NULL,
-  `rocket_id` int(11) DEFAULT NULL,
-  `message` varchar(200) NOT NULL,
-  `time_created` datetime NOT NULL DEFAULT current_timestamp()
+CREATE TABLE chat (
+  id int(11) NOT NULL,
+  player_id int(11) NOT NULL,
+  rocket_id int(11) DEFAULT NULL,
+  message varchar(200) NOT NULL,
+  time_created datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-CREATE TABLE `game_state` (
-  `state` int(11) NOT NULL,
-  `next_date` datetime NOT NULL
+CREATE TABLE game_state (
+  state int(11) NOT NULL,
+  next_date datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-INSERT INTO `game_state` (`state`, `next_date`) VALUES
-(3, '2023-01-29 21:14:12');
+INSERT INTO game_state (state, next_date) VALUES
+(1, '2023-01-31 00:00:00');
 
-CREATE TABLE `player` (
-  `id` int(11) NOT NULL,
-  `playername` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `time_created` datetime NOT NULL DEFAULT current_timestamp(),
-  `actions` int(11) NOT NULL,
-  `fuel` int(11) NOT NULL,
-  `food` int(11) NOT NULL
+CREATE TABLE player (
+  id int(11) NOT NULL,
+  playername varchar(100) NOT NULL,
+  password varchar(255) NOT NULL,
+  time_created datetime NOT NULL DEFAULT current_timestamp(),
+  actions int(11) NOT NULL,
+  fuel int(11) NOT NULL,
+  food int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
-ALTER TABLE `chat`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE chat
+  ADD PRIMARY KEY (id);
 
-ALTER TABLE `player`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE player
+  ADD PRIMARY KEY (id);
 
 
-ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE chat
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `player`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE player
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` EVENT `Wipe` ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:51:00' ON COMPLETION PRESERVE ENABLE DO BEGIN
+CREATE DEFINER=root@localhost EVENT Wipe ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:51:00' ON COMPLETION PRESERVE ENABLE DO BEGIN
 
 UPDATE game_state SET state=2;
 
@@ -50,10 +50,10 @@ TRUNCATE TABLE player;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` EVENT `Add actions` ON SCHEDULE EVERY 1 HOUR STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE users SET actions = 30$$
+CREATE DEFINER=root@localhost EVENT `Add actions` ON SCHEDULE EVERY 1 HOUR STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE users SET actions = 30$$
 
-CREATE DEFINER=`root`@`localhost` EVENT `EndGame` ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:54:00' ON COMPLETION PRESERVE ENABLE DO UPDATE game_state SET state=1$$
+CREATE DEFINER=root@localhost EVENT EndGame ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:54:00' ON COMPLETION PRESERVE ENABLE DO UPDATE game_state SET state=1$$
 
-CREATE DEFINER=`root`@`localhost` EVENT `Asteroid` ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE ENABLE DO UPDATE game_state SET state=3$$
+CREATE DEFINER=root@localhost EVENT Asteroid ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE ENABLE DO UPDATE game_state SET state=3$$
 
 DELIMITER ;

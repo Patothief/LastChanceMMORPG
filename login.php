@@ -53,8 +53,6 @@
 				$_SESSION['fuel'] = $row['fuel'];
 				$_SESSION['food'] = $row['food'];
 
-				loadNextDate();
-				
 				header("Location: dashboard.php");
             } else {
 				$row = mysqli_fetch_array($query);
@@ -66,8 +64,6 @@
 					$_SESSION['fuel'] = $row['fuel'];
 					$_SESSION['food'] = $row['food'];
 					
-					loadNextDate();
-
 					header("Location: dashboard.php");
 				} else {
 					$passwordErr = '<div class="alert alert-danger">Password is incorrect.</div>';					
