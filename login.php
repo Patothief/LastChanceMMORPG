@@ -72,13 +72,4 @@
         }
     }
 	
-function loadNextDate() {
-	$sql = "SELECT next_date FROM game_state";
-	
-	$query = mysqli_query($connection, $sql);
-	$row = mysqli_fetch_array($query);
-	
-	$_SESSION['next_date'] = $row['next_date'];
-};
-
 ?>    
