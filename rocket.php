@@ -23,49 +23,8 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Shelter</label>
+	<label class="pageLabel">Rocket</label>
 	
-    <div class="vertical-center">
-		<p class="card-text">
-			<label><?php echo $lang['STORY']; ?></label>
-		</p>
-
-		<label><?php echo $lang['WARNING']; ?></label> <label id="countdownLabel"></label>
-	</div>
-
-	<br/>
-	
-	<div class="vertical-center">
-		<p class="card-text">
-			<label>News</label>
-		</p>
-
-		<label>Rocket xyz successfuly landed on planet 123 on Feb 2nd, 2023</label>
-	</div>
-
-	<br/>
-
-    <div class="vertical-center">
-		<p class="card-text"><?php echo $lang['PLAYER']; ?>
-			<label><?php echo $_SESSION['playername']; ?></label>
-		</p>
-		
-		<br/>
-		
-		<p class="card-text"><?php echo $lang['FUEL']; ?>
-			<label id="labelFuel"><?php echo $_SESSION['fuel'] ?></label>
-		</p>
-
-		<br/>
-		
-		<p class="card-text"><?php echo $lang['FOOD']; ?>
-			<label id="labelFood"><?php echo $_SESSION['food'] ?></label>
-		</p>
-		
-	</div>
-
-	<br/>
-
     <div id="chatbox" class="vertical-center">
 		<div class="inner_div" id="chatlist">
 		</div>
@@ -76,17 +35,17 @@ include_once 'language.php';
 	</div>
 	
 	<br/>
-		
+	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php">Shelter</a>
 	</div>
 	
 	<br/>
 		
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="rocket.php">Rocket</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
 	</div>
-	
+
 	<br/><br/><br/>
 	<br/><br/><br/>
 	<br/><br/><br/>

@@ -28,8 +28,11 @@ while ($row = $run->fetch_array()) :
 		$css_class = "item_right";
 	}
 
+	$time = strtotime($row['time_created']);
+	$formattedTime = date("F jS, g:i a", $time);
+
 	echo "<div class='message_info " . $css_class . "'>";
-	echo $row['time_created'];
+	echo $formattedTime;
 	echo "</div>";
 	echo "<div class='message " . $css_class . "'>";
 	echo $row['playername'] . ": " . $row['message'];

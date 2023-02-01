@@ -23,31 +23,15 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Shelter</label>
+	<label class="pageLabel">Wilderness</label>
 	
-    <div class="vertical-center">
-		<p class="card-text">
-			<label><?php echo $lang['STORY']; ?></label>
-		</p>
-
-		<label><?php echo $lang['WARNING']; ?></label> <label id="countdownLabel"></label>
-	</div>
-
-	<br/>
-	
-	<div class="vertical-center">
-		<p class="card-text">
-			<label>News</label>
-		</p>
-
-		<label>Rocket xyz successfuly landed on planet 123 on Feb 2nd, 2023</label>
-	</div>
-
-	<br/>
-
     <div class="vertical-center">
 		<p class="card-text"><?php echo $lang['PLAYER']; ?>
 			<label><?php echo $_SESSION['playername']; ?></label>
+		</p>
+		
+		<p class="card-text"><?php echo $lang['ACTIONS']; ?>
+			<label id="labelActions"><?php echo $_SESSION['actions'] ?></label>
 		</p>
 		
 		<br/>
@@ -62,6 +46,13 @@ include_once 'language.php';
 			<label id="labelFood"><?php echo $_SESSION['food'] ?></label>
 		</p>
 		
+		<br/><br/>
+
+		<button onClick = 'search()' class="btn btn-outline-primary btn-lg btn-block"><?php echo $lang['SEARCH']; ?></button> 
+
+		<br/>
+
+		<label id="labelMessage"><?php if (isset($_SESSION['message'])) echo $_SESSION['message']; ?></label>
 	</div>
 
 	<br/>
@@ -78,7 +69,7 @@ include_once 'language.php';
 	<br/>
 		
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php">Shelter</a>
 	</div>
 	
 	<br/>

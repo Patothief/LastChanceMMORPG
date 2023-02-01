@@ -23,6 +23,8 @@
 			<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 		</div>
 		
+		<br/>
+		
 		<div class="vertical-center">
 
 			<form action="" method="post">
@@ -38,7 +40,7 @@
 					<?php echo $passwordErr; ?>					
 				</div>
 
-				<button type="submit" name="login" class="btn btn-outline-primary btn-lg btn-block">Login</button>
+				<button type="submit" name="login" class="btn btn-outline-primary btn-lg btn-block">Login/Register</button>
 			</form>
 
 		</div>
