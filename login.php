@@ -33,8 +33,8 @@
                 $password_hash = password_hash($password_signin, PASSWORD_BCRYPT);
 				
 				// Query
-				$sql = "INSERT INTO player (playername, password, actions, fuel, food) 
-					VALUES ('{$playername_signin}', '{$password_hash}', 30, 0, 0)";
+				$sql = "INSERT INTO player (playername, password, max_actions, max_health, actions, health) 
+					VALUES ('{$playername_signin}', '{$password_hash}', 30, 100, 30, 100)";
 				
 				// Create mysql query
 				$sqlQuery = mysqli_query($connection, $sql);
@@ -47,22 +47,14 @@
 				$query = mysqli_query($connection, $sql);
 				$row = mysqli_fetch_array($query);
 				
-				$_SESSION['id'] = $row['id'];
-				$_SESSION['playername'] = $row['playername'];
-				$_SESSION['actions'] = $row['actions'];
-				$_SESSION['fuel'] = $row['fuel'];
-				$_SESSION['food'] = $row['food'];
+				assignSessionVariables($row);
 
 				header("Location: shelter.php");
             } else {
 				$row = mysqli_fetch_array($query);
 				
 				if (password_verify($password_signin, $row['password'])) {
-					$_SESSION['id'] = $row['id'];
-					$_SESSION['playername'] = $row['playername'];
-					$_SESSION['actions'] = $row['actions'];
-					$_SESSION['fuel'] = $row['fuel'];
-					$_SESSION['food'] = $row['food'];
+					assignSessionVariables($row);
 					
 					header("Location: shelter.php");
 				} else {
@@ -72,4 +64,15 @@
         }
     }
 	
+	function assignSessionVariables($row) {
+		$_SESSION['playerId'] = $row['id'];
+		$_SESSION['playername'] = $row['playername'];
+		$_SESSION['rocketId'] = $row['rocket_id'];
+		$_SESSION['actions'] = $row['actions'];
+		$_SESSION['health'] = $row['health'];
+		$_SESSION['fuel'] = $row['fuel'];
+		$_SESSION['food'] = $row['food'];
+		$_SESSION['metal'] = $row['metal'];
+	}
+
 ?>    

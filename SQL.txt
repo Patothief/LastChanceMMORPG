@@ -15,23 +15,59 @@ CREATE TABLE game_state (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 INSERT INTO game_state (state, next_date) VALUES
-(2, '2023-01-31 21:50:00');
+(2, '2023-02-12 21:00:00');
 
 CREATE TABLE player (
   id int(11) NOT NULL,
   playername varchar(100) NOT NULL,
   password varchar(255) NOT NULL,
   time_created datetime NOT NULL DEFAULT current_timestamp(),
+  rocket_id int(11) NOT NULL,
+  max_actions int(11) NOT NULL,
+  max_health int(11) NOT NULL,
   actions int(11) NOT NULL,
+  health int(11) NOT NULL,
   fuel int(11) NOT NULL,
-  food int(11) NOT NULL
+  food int(11) NOT NULL,
+  metal int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE rocket (
+  id int(11) NOT NULL,
+  name varchar(50) NOT NULL,
+  rocket_type_id int(11) NOT NULL,
+  player_creator_id int(11) NOT NULL,
+  fuel int(11) NOT NULL,
+  food int(11) NOT NULL,
+  weapons int(11) NOT NULL,
+  state int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE rocket_type (
+  id int(11) NOT NULL,
+  name varchar(50) NOT NULL,
+  metals_required int(11) NOT NULL,
+  max_fuel int(11) NOT NULL,
+  max_crew int(11) NOT NULL,
+  max_cargo int(11) NOT NULL,
+  launch_fuel int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO rocket_type (id, name, metals_required, max_fuel, max_crew, max_cargo, launch_fuel) VALUES
+(1, 'Orion', 50, 100, 4, 200, 150),
+(2, 'Milky', 70, 150, 5, 300, 250);
+
 
 ALTER TABLE chat
   ADD PRIMARY KEY (id);
 
 ALTER TABLE player
+  ADD PRIMARY KEY (id);
+
+ALTER TABLE rocket
+  ADD PRIMARY KEY (id);
+
+ALTER TABLE rocket_type
   ADD PRIMARY KEY (id);
 
 
@@ -40,21 +76,26 @@ ALTER TABLE chat
 
 ALTER TABLE player
   MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE rocket
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE rocket_type
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 DELIMITER $$
-CREATE DEFINER=root@localhost EVENT Wipe ON SCHEDULE EVERY 15 MINUTE STARTS '2023-01-27 14:25:00' ON COMPLETION PRESERVE ENABLE DO BEGIN
+CREATE DEFINER=root@localhost EVENT Wipe ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
 
-UPDATE game_state SET state=1, next_date=NOW() + INTERVAL 5 MINUTE;
+UPDATE game_state SET state=2, next_date=CURDATE() + INTERVAL 10 DAY + INTERVAL 21 HOUR;
 
-TRUNCATE TABLE chat;
 TRUNCATE TABLE player;
 
 END$$
 
-CREATE DEFINER=root@localhost EVENT `Add actions` ON SCHEDULE EVERY 1 HOUR STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE users SET actions = 30$$
+CREATE DEFINER=root@localhost EVENT `Add actions` ON SCHEDULE EVERY 1 MINUTE STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE player SET actions = max_actions$$
 
-CREATE DEFINER=root@localhost EVENT EndGame ON SCHEDULE EVERY 15 MINUTE STARTS '2023-01-27 14:20:00' ON COMPLETION PRESERVE ENABLE DO UPDATE game_state SET state=3, next_date=NOW() + INTERVAL 5 MINUTE$$
+CREATE DEFINER=root@localhost EVENT EndGame ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:54:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=1$$
 
-CREATE DEFINER=root@localhost EVENT Asteroid ON SCHEDULE EVERY 15 MINUTE STARTS '2023-01-27 14:15:00' ON COMPLETION PRESERVE ENABLE DO UPDATE game_state SET state=2, next_date=NOW() + INTERVAL 5 MINUTE$$
+CREATE DEFINER=root@localhost EVENT Asteroid ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=3$$
 
 DELIMITER ;

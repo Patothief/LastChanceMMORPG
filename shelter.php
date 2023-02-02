@@ -33,8 +33,6 @@ include_once 'language.php';
 		<label><?php echo $lang['WARNING']; ?></label> <label id="countdownLabel"></label>
 	</div>
 
-	<br/>
-	
 	<div class="vertical-center">
 		<p class="card-text">
 			<label>News</label>
@@ -42,8 +40,6 @@ include_once 'language.php';
 
 		<label>Rocket xyz successfuly landed on planet 123 on Feb 2nd, 2023</label>
 	</div>
-
-	<br/>
 
     <div class="vertical-center">
 		<p class="card-text"><?php echo $lang['PLAYER']; ?>
@@ -61,10 +57,14 @@ include_once 'language.php';
 		<p class="card-text"><?php echo $lang['FOOD']; ?>
 			<label id="labelFood"><?php echo $_SESSION['food'] ?></label>
 		</p>
+
+		<br/>
+		
+		<p class="card-text"><?php echo $lang['METALS']; ?>
+			<label id="labelMetals"><?php echo $_SESSION['metal'] ?></label>
+		</p>
 		
 	</div>
-
-	<br/>
 
     <div id="chatbox" class="vertical-center">
 		<div class="inner_div" id="chatlist">
@@ -75,19 +75,14 @@ include_once 'language.php';
 		</div>
 	</div>
 	
-	<br/>
-		
 	<div class="vertical-center">
 		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
 	</div>
 	
-	<br/>
-		
 	<div class="vertical-center">
 		<a class="btn btn-outline-primary btn-lg btn-block" href="rocket.php">Rocket</a>
 	</div>
 	
-	<br/><br/><br/>
 	<br/><br/><br/>
 	<br/><br/><br/>
 	<br/><br/><br/>
@@ -96,39 +91,12 @@ include_once 'language.php';
 		<a class="btn btn-outline-primary btn-lg btn-block" href="logout.php">Log out</a>
 	</div>
 
-	<br/>
-
 </body>
 
 </html>
 
 <script>
 var countDownDate;
-
-function search() {
-
-  	var request = $.ajax({
-   		url: 'search.php',
-   		type: 'get',
-   		dataType: 'json'
- 	});
- 	
- 	request.done( function ( data ) {
-		console.log(data);
-		
-		if (data.length > 0) {
-			var actions = data[0].actions;
-			var fuel = data[0].fuel;
-			var food = data[0].food;
-			var message = data[0].message;
-			
-			$('#labelActions').text(actions);
-			$('#labelFuel').text(fuel);
-			$('#labelFood').text(food);
-			$('#labelMessage').text(message);
-		}
- 	});
-}
 
 function addChatLine(message) {
 	$("#message").val("");
@@ -137,6 +105,7 @@ function addChatLine(message) {
    		url: 'chat.php',
    		type: 'get',
 		data: { 
+			rocketId: 0,
 			message: message
 		}
 	});
@@ -152,7 +121,10 @@ function addChatLine(message) {
 setInterval(function refreshChat() {
   	var request = $.ajax({
    		url: 'chat.php',
-   		type: 'get'
+   		type: 'get',
+		data: { 
+			rocketId: 0
+		}		
 	});
  	
  	request.done( function ( data ) {
