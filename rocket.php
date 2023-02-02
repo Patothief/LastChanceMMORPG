@@ -109,6 +109,7 @@ function joinRocket(joinRocketId) {
 			rocketId = data[0].rocketId;
 			
 			$("#rocketList").html(htmlContent);
+			$("#chatlist").empty();
 			$("#chatbox").show();
 		}
  	});
@@ -130,6 +131,7 @@ function createRocket() {
 			rocketId = data[0].rocketId;
 			
 			$("#rocketList").html(htmlContent);
+			$("#chatlist").empty();
 			$("#chatbox").show();
 		}
  	});

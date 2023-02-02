@@ -1,6 +1,7 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+DROP TABLE IF EXISTS chat;
 CREATE TABLE chat (
   id int(11) NOT NULL,
   player_id int(11) NOT NULL,
@@ -9,6 +10,7 @@ CREATE TABLE chat (
   time_created datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+DROP TABLE IF EXISTS game_state;
 CREATE TABLE game_state (
   state int(11) NOT NULL,
   next_date datetime NOT NULL
@@ -17,6 +19,7 @@ CREATE TABLE game_state (
 INSERT INTO game_state (state, next_date) VALUES
 (2, '2023-02-12 21:00:00');
 
+DROP TABLE IF EXISTS player;
 CREATE TABLE player (
   id int(11) NOT NULL,
   playername varchar(100) NOT NULL,
@@ -32,6 +35,7 @@ CREATE TABLE player (
   metal int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+DROP TABLE IF EXISTS rocket;
 CREATE TABLE rocket (
   id int(11) NOT NULL,
   name varchar(50) NOT NULL,
@@ -43,6 +47,7 @@ CREATE TABLE rocket (
   state int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+DROP TABLE IF EXISTS rocket_type;
 CREATE TABLE rocket_type (
   id int(11) NOT NULL,
   name varchar(50) NOT NULL,
@@ -84,6 +89,7 @@ ALTER TABLE rocket_type
   MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 DELIMITER $$
+DROP EVENT IF EXISTS `Wipe`$$
 CREATE DEFINER=root@localhost EVENT Wipe ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
 
 UPDATE game_state SET state=2, next_date=CURDATE() + INTERVAL 10 DAY + INTERVAL 21 HOUR;
@@ -92,10 +98,13 @@ TRUNCATE TABLE player;
 
 END$$
 
+DROP EVENT IF EXISTS `Add actions`$$
 CREATE DEFINER=root@localhost EVENT `Add actions` ON SCHEDULE EVERY 1 MINUTE STARTS '2023-01-20 23:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE player SET actions = max_actions$$
 
+DROP EVENT IF EXISTS `EndGame`$$
 CREATE DEFINER=root@localhost EVENT EndGame ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:54:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=1$$
 
+DROP EVENT IF EXISTS `Asteroid`$$
 CREATE DEFINER=root@localhost EVENT Asteroid ON SCHEDULE EVERY 5 MINUTE STARTS '2023-01-27 14:52:00' ON COMPLETION PRESERVE DISABLE DO UPDATE game_state SET state=3$$
 
 DELIMITER ;

@@ -14,6 +14,17 @@
 		}
 		
 		$_SESSION['rocketId'] = $joinRocketId;
+		
+		$sql = "SELECT name FROM rocket WHERE id = " . $joinRocketId;
+		$run = $connection->query($sql);
+		$row = $run->fetch_array();
+		$rocketName = $row['name'];
+		
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " joined rocket " . $rocketName . "')";
+
+		if(!mysqli_query($connection, $sql)) {
+			echo "ERROR: Message not sent!!!";
+		}
 	}
 	
 	if (isset($_GET['createRocket'])) {
@@ -33,6 +44,12 @@
 		}
 		
 		$_SESSION['rocketId'] = $insertId;
+		
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " started building a new rocket.')";
+
+		if(!mysqli_query($connection, $sql)) {
+			echo "ERROR: Message not sent!!!";
+		}
 	}
 	
 	$htmlContent = "";

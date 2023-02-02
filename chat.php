@@ -12,16 +12,19 @@ if (isset($_GET['message'])) {
 	}
 }
 
-$sql = "SELECT * FROM (SELECT chat.player_id, chat.message, chat.time_created, player.playername FROM chat JOIN player ON chat.player_id = player.id " .
+$sql = "SELECT * FROM (SELECT chat.player_id, chat.message, chat.time_created, player.playername FROM chat LEFT JOIN player ON chat.player_id = player.id " .
 		"WHERE chat.rocket_id = " . $_GET['rocketId'] . " " .
 		"ORDER BY chat.time_created DESC LIMIT 15) AS sub ORDER BY time_created ASC";
 $run = $connection->query($sql);
 
 while ($row = $run->fetch_array()) :
-	if ($row['player_id']!=$_SESSION['playerId']) {
-		$css_class = "item_left";
-	} else {
+
+	if ($row['player_id'] == 0) {
+		$css_class = "item_admin";
+	} else if ($row['player_id'] == $_SESSION['playerId']) {
 		$css_class = "item_right";
+	} else {
+		$css_class = "item_left";
 	}
 
 	$time = strtotime($row['time_created']);
@@ -31,7 +34,8 @@ while ($row = $run->fetch_array()) :
 	echo $formattedTime;
 	echo "</div>";
 	echo "<div class='message " . $css_class . "'>";
-	echo $row['playername'] . ": " . $row['message'];
+	if ($row['playername'] != "") echo $row['playername'] . ": ";
+	echo $row['message'];
 	echo "</div>";
 endwhile;
 

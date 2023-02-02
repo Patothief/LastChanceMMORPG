@@ -102,12 +102,23 @@ html {
 	clear: both;
 }
 
+.item_admin {
+	margin-left: 15px;
+	float: left;	
+	clear: both;		
+	color: black;
+}
+
 .message.item_left {
 	background-color: #58b666;
 }
 
 .message.item_right {
 	background-color: #6fbced;
+}
+
+.message.item_admin {
+	background-color: gray;
 }
 
 .message_info {
