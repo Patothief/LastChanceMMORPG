@@ -20,7 +20,13 @@
 		$row = $run->fetch_array();
 		$rocketName = $row['name'];
 		
-		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " joined rocket " . $rocketName . "')";
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " joined rocket " . $rocketName . ".')";
+
+		if(!mysqli_query($connection, $sql)) {
+			echo "ERROR: Message not sent!!!";
+		}
+
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $joinRocketId . ", '" . $_SESSION['playername'] . " joined.')";
 
 		if(!mysqli_query($connection, $sql)) {
 			echo "ERROR: Message not sent!!!";
@@ -29,7 +35,9 @@
 	
 	if (isset($_GET['createRocket'])) {
 
-		$sql = "INSERT INTO rocket (name, rocket_type_id, player_creator_id) VALUES ('test', 1, " . $_SESSION['playerId'] . ")";
+		$rocketName = $_GET['rocketName'];
+		
+		$sql = "INSERT INTO rocket (name, rocket_type_id, player_creator_id) VALUES ('" . $rocketName . "', " . $_GET['rocketTypeId'] . ", " . $_SESSION['playerId'] . ")";
 
 		if(!mysqli_query($connection, $sql)) {
 			echo "ERROR: Message not sent!!!";
@@ -45,60 +53,47 @@
 		
 		$_SESSION['rocketId'] = $insertId;
 		
-		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " started building a new rocket.')";
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " created new launch pad for " . $rocketName . ".')";
+
+		if(!mysqli_query($connection, $sql)) {
+			echo "ERROR: Message not sent!!!";
+		}
+
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $insertId . ", '" . $_SESSION['playername'] . " created launch pad.')";
 
 		if(!mysqli_query($connection, $sql)) {
 			echo "ERROR: Message not sent!!!";
 		}
 	}
 	
-	$htmlContent = "";
-	
-	if ($_SESSION['rocketId'] == 0) {
-		$htmlContent = "<label>" .
-		"You have not joined any rocket project. Join existing project or create a new one." .
-		"</label>" .
-		"<br/><br/>" .
-		"<label>" .
-		"Rocket projects:" .
-		"</label>" .
-		"<br/>" . 
-		"<table>" .
-		"<tr>" .
-		"<th>Name</th><th>Type</th><th>Owner</th><th>Action</th>" .
-		"</tr>";
+	if (isset($_GET['abandonRocket'])) {
+		$abanonedRocketId = $_SESSION['rocketId'];
+		
+		// Attempt insert query execution
+		$sql = "UPDATE player SET rocket_id=0 WHERE id = '" . $_SESSION['playerId'] . "'";
 
-		$sql = "SELECT rocket.id AS rocketId, rocket.name AS rocketName, rocket_type.name AS rocketTypeName, player.playername AS playerName " .
-			"FROM rocket JOIN rocket_type ON rocket.rocket_type_id = rocket_type.id JOIN player on rocket.player_creator_id = player.id";
+		if(!mysqli_query($connection, $sql)) {
+			echo "SQL ERROR";
+		}
+		
+		$sql = "SELECT name FROM rocket WHERE id = " . $abanonedRocketId;
 		$run = $connection->query($sql);
+		$row = $run->fetch_array();
+		$rocketName = $row['name'];
 
-		while ($row = $run->fetch_array()) :
-			$rocketId = $row['rocketId'];
-			
-			$htmlContent .= "<tr>" .
-			"<td>" . $row['rocketName'] . "</td>" .
-			"<td>" . $row['rocketTypeName'] . "</td>" .
-			"<td>" . $row['playerName'] . "</td>" .
-			"<td>" .
-			"<button onClick = 'joinRocket(" . $rocketId . ")' class='btn btn-outline-primary btn-lg btn-block'>Join</button>" .
-			"</td>" .
-			"</tr>";
-		endwhile;				
+		$_SESSION['rocketId'] = 0;
 
-		$htmlContent .= "</table>" .
-		"<br/><br/>" .
-		"<button onClick = 'createRocket()' class='btn btn-outline-primary btn-lg btn-block'>Create rocket (50 metals)</button>" .
-		"<br/>" .
-		"<label>" .
-		"You have " . $_SESSION['metal'] . " metals." .
-		"</label>";		
-	} else {
-		$htmlContent = "Rocket joined";
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, '" . $_SESSION['playername'] . " abanoned rocket " . $rocketName . ".')";
+
+		if(!mysqli_query($connection, $sql)) {
+			echo "ERROR: Message not sent!!!";
+		}
+
+		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $abanonedRocketId . ", '" . $_SESSION['playername'] . " abanoned rocket.')";
+
+		if(!mysqli_query($connection, $sql)) {
+			echo "ERROR: Message not sent!!!";
+		}
 	}
 	
-
-	$return_arr[] = array("htmlContent" => $htmlContent,
-					"rocketId" => $_SESSION['rocketId']);
-				
-	echo json_encode($return_arr);
 ?>

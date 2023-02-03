@@ -41,6 +41,7 @@ html {
 	padding-top: 10px;
 	margin: auto;
 	text-align: right;
+	color: white;
 }
 
 .pageLabel {
@@ -157,10 +158,11 @@ table th {
 }
 
 table tr {
-	text-align: center;
+	text-align: left;
 }
 
 table td {
+	padding: 5px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
@@ -174,4 +176,8 @@ table tr:hover td {
 	background: #f2f2f2;
 	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
 	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+}
+
+.selectedDiv {
+	border: 3px solid blue;
 }

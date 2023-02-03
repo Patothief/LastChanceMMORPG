@@ -19,6 +19,7 @@ include_once 'language.php';
 
 <body>
 	<div class="languagebar">
+		<label><?php echo $_SESSION['playername']; ?></label>
 		<a href="?lang=en"><img src="images/en.png" title="English"/></a>
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
@@ -42,12 +43,6 @@ include_once 'language.php';
 	</div>
 
     <div class="vertical-center">
-		<p class="card-text"><?php echo $lang['PLAYER']; ?>
-			<label><?php echo $_SESSION['playername']; ?></label>
-		</p>
-		
-		<br/>
-		
 		<p class="card-text"><?php echo $lang['FUEL']; ?>
 			<label id="labelFuel"><?php echo $_SESSION['fuel'] ?></label>
 		</p>
@@ -80,7 +75,7 @@ include_once 'language.php';
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="rocket.php">Rocket</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="rocketController.php">Rocket</a>
 	</div>
 	
 	<br/><br/><br/>

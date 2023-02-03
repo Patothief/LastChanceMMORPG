@@ -19,18 +19,20 @@ include_once 'language.php';
 
 <body>
 	<div class="languagebar">
+		<label><?php echo $_SESSION['playername']; ?></label>
 		<a href="?lang=en"><img src="images/en.png" title="English"/></a>
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
 	<label class="pageLabel">Rocket</label>
 	
-	   <div class="vertical-center">
-		<p class="card-text"><?php echo $lang['PLAYER']; ?>
-			<label><?php echo $_SESSION['playername']; ?></label>
-		</p>
+	<div class="vertical-center">
+		<label>Rocket joined.</label>
 		
-		<p class="card-text" id="rocketList"/>
+		<br/><br/>
+		<button onClick = "abandonRocket()" class='btn btn-outline-primary btn-lg btn-block'>Abandon rocket</button>
+		<br/>
+
 	</div>
 	
     <div id="chatbox" class="vertical-center">
@@ -64,76 +66,17 @@ include_once 'language.php';
 
 <script>
 
-var rocketId;
-
-function readRocketData() {
+function abandonRocket() {
   	var request = $.ajax({
    		url: 'rocketData.php',
    		type: 'get',
-   		dataType: 'json'
-	});
- 	
- 	request.done( function ( data ) {
-		if (data.length > 0) {
-			var htmlContent = data[0].htmlContent;
-			rocketId = data[0].rocketId;
-
-
-			$("#rocketList").html(htmlContent);
-			
-			//console.log("rocket id: " + rocketId);
-			if (rocketId > 0) {
-				$("#chatbox").show();
-			} else {
-				$("#chatbox").hide();
-			}
-		}
- 	});
-}
-
-readRocketData();
-
-function joinRocket(joinRocketId) {
-  	var request = $.ajax({
-   		url: 'rocketData.php',
-   		type: 'get',
-   		dataType: 'json',
 		data: { 
-			joinRocketId: joinRocketId
+			abandonRocket: true
 		}
 	});
  	
  	request.done( function ( data ) {
-		if (data.length > 0) {
-			var htmlContent = data[0].htmlContent;
-			rocketId = data[0].rocketId;
-			
-			$("#rocketList").html(htmlContent);
-			$("#chatlist").empty();
-			$("#chatbox").show();
-		}
- 	});
-}
-
-function createRocket() {
-  	var request = $.ajax({
-   		url: 'rocketData.php',
-   		type: 'get',
-   		dataType: 'json',
-		data: { 
-			createRocket: true
-		}
-	});
- 	
- 	request.done( function ( data ) {
-		if (data.length > 0) {
-			var htmlContent = data[0].htmlContent;
-			rocketId = data[0].rocketId;
-			
-			$("#rocketList").html(htmlContent);
-			$("#chatlist").empty();
-			$("#chatbox").show();
-		}
+		window.location.href = "rocketController.php";
  	});
 }
 
@@ -144,7 +87,7 @@ function addChatLine(message) {
    		url: 'chat.php',
    		type: 'get',
 		data: { 
-			rocketId: rocketId,
+			rocketId: <?php echo $_SESSION['rocketId'] ?>,
 			message: message
 		}
 	});
@@ -162,7 +105,7 @@ setInterval(function refreshChat() {
    		url: 'chat.php',
    		type: 'get',
 		data: { 
-			rocketId: rocketId
+			rocketId: <?php echo $_SESSION['rocketId'] ?>
 		}		
 	});
  	

@@ -6,7 +6,7 @@ CREATE TABLE chat (
   id int(11) NOT NULL,
   player_id int(11) NOT NULL,
   rocket_id int(11) DEFAULT NULL,
-  message varchar(200) NOT NULL,
+  message varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   time_created datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -38,7 +38,7 @@ CREATE TABLE player (
 DROP TABLE IF EXISTS rocket;
 CREATE TABLE rocket (
   id int(11) NOT NULL,
-  name varchar(50) NOT NULL,
+  name varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   rocket_type_id int(11) NOT NULL,
   player_creator_id int(11) NOT NULL,
   fuel int(11) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE rocket (
 DROP TABLE IF EXISTS rocket_type;
 CREATE TABLE rocket_type (
   id int(11) NOT NULL,
-  name varchar(50) NOT NULL,
+  name varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   metals_required int(11) NOT NULL,
   max_fuel int(11) NOT NULL,
   max_crew int(11) NOT NULL,
