@@ -24,26 +24,40 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Rocket</label>
+	<label class="pageLabel">Launch Pad</label>
 	
 	<div class="vertical-center">
-		<label>Rocket joined.</label>
-		
+		<label>You have not joined any launch pad project. Join existing project or create a new one.</label>
 		<br/><br/>
-		<button onClick = "abandonRocket()" class='btn btn-outline-primary btn-lg btn-block'>Abandon rocket</button>
+		<label>Launch pad projects:</label>
 		<br/>
+		<table>
+			<tr>
+				<th>Name</th><th>Type</th><th>Owner</th><th>Action</th>
+			</tr>
+			<?php
+			$sql = "SELECT rocket.id AS rocketId, rocket.name AS rocketName, rocket_type.name AS rocketTypeName, player.playername AS playerName " .
+				"FROM rocket JOIN rocket_type ON rocket.rocket_type_id = rocket_type.id JOIN player on rocket.player_creator_id = player.id";
+			$run = $connection->query($sql);
 
+			while ($row = $run->fetch_array()) :
+				$rocketId = $row['rocketId'];
+				
+				echo "<tr>";
+				echo "<td>" . $row['rocketName'] . "</td>";
+				echo "<td>" . $row['rocketTypeName'] . "</td>";
+				echo "<td>" . $row['playerName'] . "</td>";
+				echo "<td>";
+				echo "<button onClick = 'joinRocket(" . $rocketId . ")' class='btn btn-outline-primary btn-lg btn-block'>Join</button>";
+				echo "</td>";
+				echo "</tr>";
+			endwhile;				
+			?>
+		</table>
+		<br/><br/>
+		<a class='btn btn-outline-primary btn-lg btn-block' href='createLaunchPad.php'>Create launch pad</a>
 	</div>
-	
-    <div id="chatbox" class="vertical-center">
-		<div class="inner_div" id="chatlist">
-		</div>
-		<div class="input_area">
-			<input id="message" placeholder="<?php echo $lang['TYPE_MESSAGE']; ?>"/>
-			<button onClick = 'addChatLine($("#message").val())' class="btn btn-outline-primary btn-lg btn-block"><?php echo $lang['SEND']; ?></button> 
-		</div>
-	</div>
-	
+
 	<div class="vertical-center">
 		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php">Shelter</a>
 	</div>
@@ -66,52 +80,18 @@ include_once 'language.php';
 
 <script>
 
-function abandonRocket() {
+function joinRocket(joinRocketId) {
   	var request = $.ajax({
-   		url: 'rocketData.php',
+   		url: 'launchPadData.php',
    		type: 'get',
 		data: { 
-			abandonRocket: true
+			joinRocketId: joinRocketId
 		}
 	});
  	
  	request.done( function ( data ) {
-		window.location.href = "rocketController.php";
+		window.location.href = "launchPadController.php";
  	});
 }
-
-function addChatLine(message) {
-	$("#message").val("");
-	
-  	var request = $.ajax({
-   		url: 'chat.php',
-   		type: 'get',
-		data: { 
-			rocketId: <?php echo $_SESSION['rocketId'] ?>,
-			message: message
-		}
-	});
- 	
- 	request.done( function ( data ) {
-		$("#chatlist").html(data);
-		
-		var element = document.getElementById("chatlist");
-		element.scrollTop = element.scrollHeight;
- 	});
-}
-
-setInterval(function refreshChat() {
-  	var request = $.ajax({
-   		url: 'chat.php',
-   		type: 'get',
-		data: { 
-			rocketId: <?php echo $_SESSION['rocketId'] ?>
-		}		
-	});
- 	
- 	request.done( function ( data ) {
-		$("#chatlist").html(data);
- 	});
-}, 5000);
 
 </script>

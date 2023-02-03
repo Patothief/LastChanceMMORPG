@@ -75,7 +75,7 @@ include_once 'language.php';
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="rocketController.php">Rocket</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php">Launch Pad</a>
 	</div>
 	
 	<br/><br/><br/>

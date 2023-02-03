@@ -24,11 +24,11 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Rocket</label>
+	<label class="pageLabel">Launch Pad</label>
 	
 	<div class="vertical-center">
 		<label>Rocket name:</label>
-		<input id="rocketName" placeholder="Name your rocket" value="My rocket"/>
+		<input id="rocketName" placeholder="My rocket" value="My rocket"/>
 		<br/>
 		<label>Rocket class:</label>
 		<br/>
@@ -38,11 +38,11 @@ include_once 'language.php';
 			$run = $connection->query($sql);
 
 			while ($row = $run->fetch_array()) :
-				echo "<div class='rocket-type' id='" . $row['id'] . "'>";
+				echo "<div class='rocket-type' rocket-type-id='" . $row['id'] . "' rocket-price='" . $row['metals_required'] . "'>";
 				echo "<table>";
 				echo "<tr>";
 				echo "<td>" . $row['name'] . "</td>";
-				echo "<td>Price (metals): " . $row['metals_required'] . "</td>";
+				echo "<td>Build (metals): " . $row['metals_required'] . "</td>";
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td colspan='2'>Image</td>";
@@ -61,11 +61,13 @@ include_once 'language.php';
 			endwhile;	
 		?>
 		<br/>
-		<button onClick = 'createRocket()' class='btn btn-outline-primary btn-lg btn-block'>Create rocket</button>
+		<button onClick = 'createRocket()' class='btn btn-outline-primary btn-lg btn-block'>Create launch pad (100 metals)</button>
 		<label>You have <?php echo $_SESSION['metal'] ?> metals.</label>
+		
 		<br/>
+		<label id="labelMessage"></label>
 
-		<a class="btn btn-outline-primary btn-lg btn-block" href="rocketController.php">Back</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php">Back</a>
 	</div>
 	
 	<br/><br/><br/>
@@ -83,20 +85,30 @@ include_once 'language.php';
 <script>
 
 function createRocket() {
-	$rocketTypeId = $('.rocket-type.selectedDiv').attr('id');
+	$rocketName = $("#rocketName").val();
+	if (!$rocketName) $rocketName = $("#rocketName").attr('placeholder');
+	
+	$rocketTypeId = $('.rocket-type.selectedDiv').attr('rocket-type-id');
+	
+	$launchPadPrice = 100;
+	
+	if ($launchPadPrice > <?php echo $_SESSION['metal'] ?>) {
+		$("#labelMessage").text("You do not have enough metals!");
+		return;
+	}
 	
   	var request = $.ajax({
-   		url: 'rocketData.php',
+   		url: 'launchPadData.php',
    		type: 'get',
 		data: { 
 			createRocket: true,
-			rocketName: $("#rocketName").val(),
+			rocketName: $rocketName,
 			rocketTypeId: $rocketTypeId
 		}
 	});
  	
  	request.done( function ( data ) {
-		window.location.href = "rocketController.php";
+		window.location.href = "launchPadController.php";
  	});
 }
 

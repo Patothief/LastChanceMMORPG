@@ -44,7 +44,8 @@ CREATE TABLE rocket (
   fuel int(11) NOT NULL,
   food int(11) NOT NULL,
   weapons int(11) NOT NULL,
-  state int(11) NOT NULL
+  state int(11) NOT NULL,
+  build_progress int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS rocket_type;
@@ -59,8 +60,9 @@ CREATE TABLE rocket_type (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO rocket_type (id, name, metals_required, max_fuel, max_crew, max_cargo, launch_fuel) VALUES
-(1, 'Orion', 50, 100, 4, 200, 150),
-(2, 'Milky', 70, 150, 5, 300, 250);
+(1, 'Orion', 255, 100, 4, 200, 150),
+(2, 'Milky', 330, 150, 5, 300, 250),
+(3, 'FatBoy', 720, 200, 9, 450, 490);
 
 
 ALTER TABLE chat
@@ -86,7 +88,7 @@ ALTER TABLE rocket
   MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE rocket_type
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 DELIMITER $$
 DROP EVENT IF EXISTS `Wipe`$$

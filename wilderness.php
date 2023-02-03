@@ -18,6 +18,8 @@ include_once 'language.php';
 </head>
 
 <body>
+	<?php unset($_SESSION['message']); ?>
+	
 	<div class="languagebar">
 		<label><?php echo $_SESSION['playername']; ?></label>	
 		<a href="?lang=en"><img src="images/en.png" title="English"/></a>
@@ -69,7 +71,7 @@ include_once 'language.php';
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="rocketController.php">Rocket</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php">Launch pad</a>
 	</div>
 	
 	<br/><br/><br/>
