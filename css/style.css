@@ -5,7 +5,7 @@
 body {
 	font-weight: 400;
 	background-color: #000000;
-	/*background-image: url('../images/meteor.png');*/
+	background-image: url('../images/meteor.png');
 	background-size: 300px;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
@@ -184,4 +184,25 @@ table tr:hover td {
 
 .selectedDiv {
 	border: 3px solid blue;
+}
+
+td.creator {
+	color: red;
+}
+
+#image1 {
+	background-image: url('../images/launchPad.png');
+	background-position:center center;
+	background-repeat:no-repeat;
+	border: 1px red solid;
+	height:600px;
+	width:auto;
+	display: flex;
+	align-items: flex-end;
+	padding-bottom: 40px;
+}
+
+#image2 {
+	clip-path: inset(600px 0px 0px 0px);
+	border: 1px green solid;
 }

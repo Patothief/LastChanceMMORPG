@@ -7,7 +7,7 @@
 		$joinRocketId = $_GET['joinRocketId'];
 
 		// Attempt insert query execution
-		$sql = "UPDATE player SET rocket_id=" . $joinRocketId . " WHERE id = '" . $_SESSION['playerId'] . "'";
+		$sql = "UPDATE player SET rocket_id=" . $joinRocketId . ", rocket_role = 1 WHERE id = '" . $_SESSION['playerId'] . "'";
 
 		if(!mysqli_query($connection, $sql)) {
 			echo "SQL ERROR";
@@ -51,7 +51,7 @@
 	
 		$insertId = mysqli_insert_id($connection);
 		// Attempt insert query execution
-		$sql = "UPDATE player SET rocket_id=" . $insertId . ", metal = metal - " . $rocketPrice . " WHERE id = '" . $_SESSION['playerId'] . "'";
+		$sql = "UPDATE player SET rocket_id=" . $insertId . ", rocket_role = 4, metal = metal - " . $rocketPrice . " WHERE id = '" . $_SESSION['playerId'] . "'";
 
 		if(!mysqli_query($connection, $sql)) {
 			echo "SQL ERROR";
@@ -77,7 +77,7 @@
 		$abanonedRocketId = $_SESSION['rocketId'];
 		
 		// Attempt insert query execution
-		$sql = "UPDATE player SET rocket_id=0 WHERE id = '" . $_SESSION['playerId'] . "'";
+		$sql = "UPDATE player SET rocket_id = 0, rocket_role = 0 WHERE id = '" . $_SESSION['playerId'] . "'";
 
 		if(!mysqli_query($connection, $sql)) {
 			echo "SQL ERROR";
@@ -131,9 +131,22 @@
 		if ($buildProgress >= $metalsRequired) { // build finished
 			$sql = "UPDATE rocket SET state = 1 WHERE id = " . $_SESSION['rocketId'];
 			$connection->query($sql);
+			
+			$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $_SESSION['rocketId'] . ", 'Rocket built and ready for loading.')";
+			$connection->query($sql);
 		}
+	}
+	
+	if (isset($_GET['buildProgressPercentage'])) {
+		$sql = "SELECT rocket.build_progress as build_progress, rocket_type.metals_required as metals_required " .
+				"FROM rocket JOIN rocket_type ON rocket.rocket_type_id = rocket_type.id WHERE rocket.id = " . $_SESSION['rocketId'];
+			
+		$run = $connection->query($sql);
+		$row = $run->fetch_array();
+
+		$buildProgress = $row['build_progress'];
+		$metalsRequired = $row['metals_required'];
 		
-		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $_SESSION['rocketId'] . ", 'Rocket built and ready for loading.')";
-		$connection->query($sql);
+		echo $buildProgress / $metalsRequired;
 	}
 ?>

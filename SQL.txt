@@ -26,6 +26,7 @@ CREATE TABLE player (
   password varchar(255) NOT NULL,
   time_created datetime NOT NULL DEFAULT current_timestamp(),
   rocket_id int(11) NOT NULL,
+  rocket_role int(11) NOT NULL,
   max_actions int(11) NOT NULL,
   max_health int(11) NOT NULL,
   actions int(11) NOT NULL,
