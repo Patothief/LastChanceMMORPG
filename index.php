@@ -40,7 +40,7 @@
 					<?php echo $passwordErr; ?>					
 				</div>
 
-				<button type="submit" name="login" class="btn btn-outline-primary btn-lg btn-block">Login/Register</button>
+				<button type="submit" name="login" class="btn btn-outline-primary btn-lg btn-block"><?php echo $lang['LOGIN/REGISTER']; ?></button>
 			</form>
 
 		</div>

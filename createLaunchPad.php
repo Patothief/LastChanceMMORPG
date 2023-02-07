@@ -24,13 +24,13 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Launch Pad</label>
+	<label class="pageLabel"><?php echo $lang['LAUNCH_PAD']?></label>
 	
 	<div class="vertical-center">
-		<label>Rocket name:</label>
+		<label><?php echo $lang['ROCKET_NAME']?></label>
 		<input id="rocketName" placeholder="My rocket" value="My rocket"/>
 		<br/>
-		<label>Rocket class:</label>
+		<label><?php echo $lang['ROCKET_CLASS']?></label>
 		<br/>
 		
 		<?php
@@ -42,17 +42,17 @@ include_once 'language.php';
 				echo "<table>";
 				echo "<tr>";
 				echo "<td>" . $row['name'] . "</td>";
-				echo "<td>Build (metals): " . $row['metals_required'] . "</td>";
+				echo "<td>" . $lang['BUILD_METALS'] . $row['metals_required'] . "</td>";
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td colspan='2'>Image</td>";
 				echo "</tr>";
 				echo "<tr>";
-				echo "<td>Fuel: " . $row['max_fuel'] . "</td>";
-				echo "<td>Cargo: " . $row['max_cargo'] . "</td>";
+				echo "<td>" . $lang['FUEL'] . " " . $row['max_fuel'] . "</td>";
+				echo "<td>" . $lang['CARGO'] . $row['max_cargo'] . "</td>";
 				echo "</tr>";
 				echo "<tr>";
-				echo "<td>Crew: " . $row['max_crew'] . "</td>";
+				echo "<td>" . $lang['CREW'] . $row['max_crew'] . "</td>";
 				echo "<td></td>";
 				echo "</tr>";
 				echo "</table>";
@@ -61,13 +61,13 @@ include_once 'language.php';
 			endwhile;	
 		?>
 		<br/>
-		<button onClick = 'createRocket()' class='btn btn-outline-primary btn-lg btn-block'>Create launch pad (100 metals)</button>
-		<label>You have <?php echo $_SESSION['metal'] ?> metals.</label>
+		<button onClick = 'createRocket()' class='btn btn-outline-primary btn-lg btn-block'><?php echo $lang['CREATE_LAUNCH_PAD']?></button>
+		<label><?php echo $lang['YOU_HAVE']; echo $_SESSION['metal']; echo $lang['METALS.'];?></label>
 		
 		<br/>
 		<label id="labelMessage"></label>
 
-		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php">Back</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php"><?php echo $lang['BACK']?></a>
 	</div>
 	
 	<br/><br/><br/>
@@ -93,7 +93,7 @@ function createRocket() {
 	$launchPadPrice = 100;
 	
 	if ($launchPadPrice > <?php echo $_SESSION['metal'] ?>) {
-		$("#labelMessage").text("You do not have enough metals!");
+		$("#labelMessage").text('<?php echo $lang['NOT_ENOUGH_METALS']?>');
 		return;
 	}
 	

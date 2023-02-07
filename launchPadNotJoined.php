@@ -24,16 +24,16 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Launch Pad</label>
+	<label class="pageLabel"><?php echo $lang['LAUNCH_PAD']?></label>
 	
 	<div class="vertical-center">
-		<label>You have not joined any launch pad project. Join existing project or create a new one.</label>
+		<label><?php echo $lang['LAUNCH_PAD_NOT_JOINED']; ?></label>
 		<br/><br/>
-		<label>Launch pad projects:</label>
+		<label><?php echo $lang['LAUNCH_PAD_PROJECTS']; ?></label>
 		<br/>
 		<table>
 			<tr>
-				<th>Name</th><th>Type</th><th>Owner</th><th>Action</th>
+				<th><?php echo $lang['NAME']; ?></th><th><?php echo $lang['TYPE']; ?></th><th><?php echo $lang['OWNER']; ?></th><th><?php echo $lang['ACTION']; ?></th>
 			</tr>
 			<?php
 			$sql = "SELECT rocket.id AS rocketId, rocket.name AS rocketName, rocket_type.name AS rocketTypeName, player.playername AS playerName " .
@@ -48,22 +48,22 @@ include_once 'language.php';
 				echo "<td>" . $row['rocketTypeName'] . "</td>";
 				echo "<td>" . $row['playerName'] . "</td>";
 				echo "<td>";
-				echo "<button onClick = 'joinRocket(" . $rocketId . ")' class='btn btn-outline-primary btn-lg btn-block'>Join</button>";
+				echo "<button onClick = 'joinRocket(" . $rocketId . ")' class='btn btn-outline-primary btn-lg btn-block'>" . $lang['JOIN'] . "</button>";
 				echo "</td>";
 				echo "</tr>";
 			endwhile;				
 			?>
 		</table>
 		<br/><br/>
-		<a class='btn btn-outline-primary btn-lg btn-block' href='createLaunchPad.php'>Create launch pad</a>
+		<a class='btn btn-outline-primary btn-lg btn-block' href='createLaunchPad.php'><?php echo $lang['CREATE_LAUNCH_PAD']; ?></a>
 	</div>
 
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php">Shelter</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php"><?php echo $lang['SHELTER']; ?></a>
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php"><?php echo $lang['WILDERNESS']; ?></a>
 	</div>
 
 	<br/><br/><br/>

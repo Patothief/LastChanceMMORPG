@@ -24,7 +24,7 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Shelter</label>
+	<label class="pageLabel"><?php echo $lang['SHELTER']; ?></label>
 	
     <div class="vertical-center">
 		<p class="card-text">
@@ -36,7 +36,7 @@ include_once 'language.php';
 
 	<div class="vertical-center">
 		<p class="card-text">
-			<label>News</label>
+			<label><?php echo $lang['NEWS']?></label>
 		</p>
 
 		<label>Rocket xyz successfuly landed on planet 123 on Feb 2nd, 2023</label>
@@ -71,11 +71,11 @@ include_once 'language.php';
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php"><?php echo $lang['WILDERNESS']; ?></a>
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php">Launch Pad</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php"><?php echo $lang['LAUNCH_PAD']?></a>
 	</div>
 	
 	<br/><br/><br/>

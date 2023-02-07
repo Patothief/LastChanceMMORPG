@@ -58,7 +58,7 @@
 					
 					header("Location: shelter.php");
 				} else {
-					$passwordErr = '<div class="alert alert-danger">Password is incorrect.</div>';					
+					$passwordErr = '<div class="alert alert-danger">' . $lang['PASSWORD_IS_INCORRECT'] . '</div>';			
 				}
 			}
         }

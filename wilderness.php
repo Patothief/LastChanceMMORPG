@@ -26,7 +26,7 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Wilderness</label>
+	<label class="pageLabel"><?php echo $lang['WILDERNESS']; ?></label>
 	
     <div class="vertical-center">
 		<p class="card-text"><?php echo $lang['ACTIONS']; ?>
@@ -67,11 +67,11 @@ include_once 'language.php';
 	</div>
 
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php">Shelter</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php"><?php echo $lang['SHELTER']; ?></a>
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php">Launch pad</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="launchPadController.php"><?php echo $lang['LAUNCH_PAD']?></a>
 	</div>
 	
 	<br/><br/><br/>

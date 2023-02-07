@@ -24,79 +24,22 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel">Launch Pad</label>
+	<label class="pageLabel"><?php echo $lang['LAUNCH_PAD']; ?></label>
 	
 	<div class="vertical-center">
-		<label>Crew:</label>
-		<table>
-			<tr>
-				<th>Name</th>
-				<th>Role</th>
-			</tr>		
-		<?php
-			$sql = "SELECT rocket.state AS state, rocket.build_progress as build_progress, rocket.player_creator_id as player_creator_id, rocket_type.metals_required as metals_required " .
-					"FROM rocket JOIN rocket_type ON rocket.rocket_type_id = rocket_type.id WHERE rocket.id = " . $_SESSION['rocketId'];
+		<label><?php echo $lang['CREW']?></label>
+		<div "launchPadDiv">
+			<table id = "launchPadParticipantsTable">
+			</table>
 			
-			$run = $connection->query($sql);
-			$row = $run->fetch_array();
-			
-			$state = $row['state'];
-			$buildProgress = $row['build_progress'];
-			$metalsRequired = $row['metals_required'];
-			$playerCreatorId = $row['player_creator_id'];
-			
-			$sql = "SELECT id, playername, rocket_role FROM player WHERE rocket_id = " . $_SESSION['rocketId'];
-			$run = $connection->query($sql);
-
-			while ($row = $run->fetch_array()) :
-				echo "<tr>";
-				if ($row['id'] == $playerCreatorId) {
-					echo "<td class='creator'>" . $row['playername'] . "</td>";
-				} else {
-					echo "<td>" . $row['playername'] . "</td>";
-				}
-				
-				if ($row['rocket_role'] == 4) {
-					echo "<td>Commander</td>";
-				} else if ($row['rocket_role'] == 3) {
-					echo "<td>Pilot</td>";
-				} else if ($row['rocket_role'] == 2) {
-					echo "<td>Engineer</td>";
-				} else if ($row['rocket_role'] == 1) {
-					echo "<td>Participant</td>";
-				} else {	// error state
-					echo "<td>Unasigned</td>";
-				}
-				
-				echo "</tr>";
-			endwhile;	
-			echo "</table>";
-			echo "<br/><br/>";
-			
-
-			
-			if ($state == 0) { // building
-				$buildPrice = min(10, $metalsRequired - $buildProgress);
-				
-				echo "Build progress: " . $buildProgress . "/" . $metalsRequired;
-				echo "<br/><br/>";
-				echo "<div id='image1'>";
-				echo "<img id='image2' src='images/rocket.png'/>";
-				echo "</div>";
-				echo "<button onClick = 'buildRocket(" . $buildPrice . ")' class='btn btn-outline-primary btn-lg btn-block'>Build (" . $buildPrice . " metals)</button>";
-				echo "<label>You have " . $_SESSION['metal'] . " metals.</label>";
-				
-				
-			} else if ($state == 1) { // loading
-				echo "Loading rocket";
-			}
-		?>
-		
+			<div id = "launchPadDetailsDiv">
+			</div>
+		</div>
 		<br/>
 		<label id="labelMessage"></label>
 		
 		<br/><br/>
-		<button onClick = "abandonRocket()" class='btn btn-outline-primary btn-lg btn-block'>Abandon launch pad</button>
+		<button onClick = "abandonRocket()" class='btn btn-outline-primary btn-lg btn-block'><?php echo $lang['ABANDON_LAUNCH_PAD']?></button>
 		<br/>
 
 	</div>
@@ -111,11 +54,11 @@ include_once 'language.php';
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php">Shelter</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php"><?php echo $lang['SHELTER']; ?></a>
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php">Wilderness</a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php"><?php echo $lang['WILDERNESS']; ?></a>
 	</div>
 
 	<br/><br/><br/>
@@ -131,23 +74,37 @@ include_once 'language.php';
 </html>
 
 <script>
-//240 -> 570
-
 
 var request = $.ajax({
-	url: 'launchPadData.php',
+	url: 'launchPadJoinedBuilder.php',
 	type: 'get',
 	data: { 
-		buildProgressPercentage: true
+		loadLaunchPadParticipantsTable: true
 	}
 });
 
-request.done( function ( data ) {
-	insetPercentage = 100 - data*100;
-	console.log(insetPercentage);
-	$("#image2").css('clip-path', 'inset(' + insetPercentage + '% 0px 0px 0px)');
+request.done(function(data) {
+	$("#launchPadParticipantsTable").html(data);
 });
-	
+
+function buildDetailsDiv() {
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+		type: 'get',
+		dataType: 'json',
+		data: { 
+			launchPadDetailsDiv: true
+		}
+	});
+
+	request.done(function(data) {
+		$("#launchPadDetailsDiv").html(data[0].content);
+		$("#image2").css('clip-path', 'inset(' + data[0].insetPercentage + '% 0px 0px 0px)');
+	});
+}
+
+buildDetailsDiv();
+
 function abandonRocket() {
   	var request = $.ajax({
    		url: 'launchPadData.php',
@@ -157,7 +114,7 @@ function abandonRocket() {
 		}
 	});
  	
- 	request.done( function ( data ) {
+ 	request.done(function(data) {
 		window.location.href = "launchPadController.php";
  	});
 }
@@ -165,12 +122,12 @@ function abandonRocket() {
 function buildRocket(buildPrice) {
 	
 	if (buildPrice > <?php echo $_SESSION['metal'] ?>) {
-		$("#labelMessage").text("You do not have enough metals!");
+		$("#labelMessage").text('<?php echo $lang['NOT_ENOUGH_METALS'] ?>');
 		return;
 	}
 	
-	  var request = $.ajax({
-   		url: 'launchPadData.php',
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
    		type: 'get',
 		data: { 
 			buildRocket: true,
@@ -179,7 +136,7 @@ function buildRocket(buildPrice) {
 	});
  	
  	request.done( function ( data ) {
-		window.location.href = "launchPadJoined.php";
+		buildDetailsDiv();
  	});
 }
 
