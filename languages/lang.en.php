@@ -15,15 +15,52 @@ $lang['PLAYER'] = 'Player:';
 $lang['ACTIONS'] = 'Actions:';
 $lang['LABEL_HEALTH'] = 'Health:';
 $lang['FUEL'] = 'Fuel:';
+$lang['FUEL_SMALL'] = 'fuel';
 $lang['FOOD'] = 'Food:';
+$lang['FOOD_SMALL'] = 'food';
 $lang['METALS'] = 'Metals:';
+$lang['METALS_SMALL'] = 'metals';
+$lang['WEAPONS'] = 'Weapons:';
+$lang['WEAPONS_SMALL'] = 'weapons';
 $lang['SEARCH'] = 'Search (1 action)';
 $lang['NO_MORE_ACTIONS'] = 'No more actions';
 $lang['NOTHING_FOUND'] = 'You found nothing. Absolutely nothing.';
 $lang['FOUND'] = 'Found ';
-$lang['FOOD_FOUND'] = ' food';
-$lang['FUEL_FOUND'] = ' fuel';
-$lang['METAL_FOUND'] = ' metal';
+
+$lang['FOOD_FOUND_1'] = ' mashrooms';
+$lang['FOOD_FOUND_2'] = ' chips';
+$lang['FOOD_FOUND_3'] = ' apples';
+$lang['FOOD_FOUND_4'] = ' peanuts';
+$lang['FOOD_FOUND_5'] = ' ham';
+$lang['FOOD_FOUND_6'] = ' chicken';
+$lang['FOOD_FOUND_7'] = ' pig';
+$lang['FOOD_FOUND_8'] = ' cow';
+$lang['FOOD_FOUND_9'] = ' eggs';
+$lang['FOOD_FOUND_10'] = ' chocolate';
+
+$lang['FUEL_FOUND_1'] = ' truck with gas';
+$lang['FUEL_FOUND_2'] = ' car with gas';
+$lang['FUEL_FOUND_3'] = ' oil barrel';
+$lang['FUEL_FOUND_4'] = ' oil station';
+$lang['FUEL_FOUND_5'] = ' broken tractor';
+
+$lang['METALS_FOUND_1'] = ' old washing machine';
+$lang['METALS_FOUND_2'] = ' seesaw';
+$lang['METALS_FOUND_3'] = ' old car wreck';
+$lang['METALS_FOUND_4'] = ' spoon';
+$lang['METALS_FOUND_5'] = ' coil';
+$lang['METALS_FOUND_6'] = ' garage door';
+$lang['METALS_FOUND_7'] = ' keys';
+$lang['METALS_FOUND_8'] = ' coins';
+$lang['METALS_FOUND_9'] = ' manhole';
+$lang['METALS_FOUND_10'] = ' laptop';
+
+$lang['WEAPONS_FOUND_1'] = ' hammer';
+$lang['WEAPONS_FOUND_2'] = ' knife';
+$lang['WEAPONS_FOUND_3'] = ' AK-47';
+$lang['WEAPONS_FOUND_4'] = ' pistol';
+$lang['WEAPONS_FOUND_5'] = ' bazooka';
+
 $lang['PASSWORD_REGEXP_ERROR'] = 'Password should be between 6 to 20 charcters long.';
 $lang['PASSWORD_IS_INCORRECT'] = 'Password is incorrect.';
 $lang['PLAYER_NAME_REGEXP_ERROR'] = 'Only letters and numbers allowed. 5 to 15 characters long.';
@@ -54,5 +91,9 @@ $lang['CARGO'] = 'Cargo: ';
 $lang['CREW'] = 'Crew: ';
 $lang['CREATE_LAUNCH_PAD'] = 'Create launch pad (100 metals)';
 $lang['BACK'] = 'Back';
+$lang['ROLE'] = 'Role';
+
+
+
 
 ?>

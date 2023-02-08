@@ -204,6 +204,7 @@ td.creator {
 }
 
 #image2 {
-	clip-path: inset(600px 0px 0px 0px);
+	clip-path: inset(0px 0px 0px 0px);
 	/*border: 1px green solid;*/
+	max-width: 100%;
 }

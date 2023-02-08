@@ -73,6 +73,7 @@
 		$_SESSION['fuel'] = $row['fuel'];
 		$_SESSION['food'] = $row['food'];
 		$_SESSION['metal'] = $row['metal'];
+		$_SESSION['weapons'] = $row['weapons'];
 	}
 
 ?>    

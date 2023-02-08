@@ -45,7 +45,7 @@ include_once 'language.php';
 				echo "<td>" . $lang['BUILD_METALS'] . $row['metals_required'] . "</td>";
 				echo "</tr>";
 				echo "<tr>";
-				echo "<td colspan='2'>Image</td>";
+				echo "<td colspan='2'><img id='image2' src='images/rocket.png'/></td>";
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td>" . $lang['FUEL'] . " " . $row['max_fuel'] . "</td>";

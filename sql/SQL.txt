@@ -33,7 +33,8 @@ CREATE TABLE player (
   health int(11) NOT NULL,
   fuel int(11) NOT NULL,
   food int(11) NOT NULL,
-  metal int(11) NOT NULL
+  metal int(11) NOT NULL,
+  weapons int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS rocket;

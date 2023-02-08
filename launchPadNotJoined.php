@@ -48,7 +48,7 @@ include_once 'language.php';
 				echo "<td>" . $row['rocketTypeName'] . "</td>";
 				echo "<td>" . $row['playerName'] . "</td>";
 				echo "<td>";
-				echo "<button onClick = 'joinRocket(" . $rocketId . ")' class='btn btn-outline-primary btn-lg btn-block'>" . $lang['JOIN'] . "</button>";
+				echo "<button onClick = 'joinRocket(" . $rocketId . ")' class='btn btn-outline-primary btn-block'>" . $lang['JOIN'] . "</button>";
 				echo "</td>";
 				echo "</tr>";
 			endwhile;				

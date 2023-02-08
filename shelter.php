@@ -46,17 +46,17 @@ include_once 'language.php';
 		<p class="card-text"><?php echo $lang['FUEL']; ?>
 			<label id="labelFuel"><?php echo $_SESSION['fuel'] ?></label>
 		</p>
-
-		<br/>
 		
 		<p class="card-text"><?php echo $lang['FOOD']; ?>
 			<label id="labelFood"><?php echo $_SESSION['food'] ?></label>
 		</p>
-
-		<br/>
 		
 		<p class="card-text"><?php echo $lang['METALS']; ?>
 			<label id="labelMetals"><?php echo $_SESSION['metal'] ?></label>
+		</p>
+
+		<p class="card-text"><?php echo $lang['WEAPONS']; ?>
+			<label id="labelWeapons"><?php echo $_SESSION['weapons'] ?></label>
 		</p>
 		
 	</div>

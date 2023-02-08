@@ -56,6 +56,12 @@ include_once 'language.php';
 		<p class="card-text"><?php echo $lang['METALS']; ?>
 			<label id="labelMetal"><?php echo $_SESSION['metal'] ?></label>
 		</p>
+
+		<br/>
+		
+		<p class="card-text"><?php echo $lang['WEAPONS']; ?>
+			<label id="labelWeapons"><?php echo $_SESSION['weapons'] ?></label>
+		</p>
 		
 		<br/><br/>
 
@@ -106,6 +112,7 @@ function search() {
 			var fuel = data[0].fuel;
 			var food = data[0].food;
 			var metal = data[0].metal;
+			var weapons = data[0].weapons;
 			var message = data[0].message;
 			
 			$('#labelActions').text(actions);
@@ -113,6 +120,7 @@ function search() {
 			$('#labelFuel').text(fuel);
 			$('#labelFood').text(food);
 			$('#labelMetal').text(metal);
+			$('#labelWeapons').text(weapons);
 			$('#labelMessage').text(message);
 		}
  	});

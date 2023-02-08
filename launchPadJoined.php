@@ -79,6 +79,7 @@ include_once 'language.php';
 
 <script>
 
+// initial load of crew
 var request = $.ajax({
 	url: 'launchPadJoinedBuilder.php',
 	type: 'get',
@@ -91,6 +92,7 @@ request.done(function(data) {
 	$("#launchPadParticipantsTable").html(data);
 });
 
+// div that shows e.g. launch pad with rocket
 function buildDetailsDiv() {
 	var request = $.ajax({
 		url: 'launchPadJoinedBuilder.php',
@@ -143,6 +145,104 @@ function buildRocket(buildPrice) {
 		buildDetailsDiv();
  	});
 }
+
+function loadFood(amount) {
+	
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+   		type: 'get',
+		data: { 
+			loadFood: true,
+			amount: amount
+		}
+	});
+ 	
+ 	request.done(function(data) {
+		buildDetailsDiv();
+ 	});
+}
+
+function unloadFood(amount) {
+	
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+   		type: 'get',
+		data: { 
+			unloadFood: true,
+			amount: amount
+		}
+	});
+ 	
+ 	request.done(function(data) {
+		buildDetailsDiv();
+ 	});
+}
+
+
+function loadFuel(amount) {
+	
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+   		type: 'get',
+		data: { 
+			loadFuel: true,
+			amount: amount
+		}
+	});
+ 	
+ 	request.done(function(data) {
+		buildDetailsDiv();
+ 	});
+}
+
+function unloadFuel(amount) {
+	
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+   		type: 'get',
+		data: { 
+			unloadFuel: true,
+			amount: amount
+		}
+	});
+ 	
+ 	request.done(function(data) {
+		buildDetailsDiv();
+ 	});
+}
+
+function loadWeapons(amount) {
+	
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+   		type: 'get',
+		data: { 
+			loadWeapons: true,
+			amount: amount
+		}
+	});
+ 	
+ 	request.done(function(data) {
+		buildDetailsDiv();
+ 	});
+}
+
+function unloadWeapons(amount) {
+	
+	var request = $.ajax({
+		url: 'launchPadJoinedBuilder.php',
+   		type: 'get',
+		data: { 
+			unloadWeapons: true,
+			amount: amount
+		}
+	});
+ 	
+ 	request.done(function(data) {
+		buildDetailsDiv();
+ 	});
+}
+
 
 // initialize chat
 var request = $.ajax({
