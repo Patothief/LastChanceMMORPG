@@ -18,7 +18,7 @@
 		include_once 'language.php';		
 		?>
 
-		<div class="languagebar">
+		<div class="topbar">
 			<a href="?lang=en"><img src="images/en.png" title="English"/></a>
 			<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 		</div>
