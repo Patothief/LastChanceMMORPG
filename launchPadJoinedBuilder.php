@@ -66,6 +66,7 @@ if (isset($_GET['launchPadDetailsDiv'])) {
 			"<div id='image1'>" .
 			"<img id='image2' src='images/rocket.png'/>" .
 			"</div>" .
+			"<br/>" .
 			"<button onClick = 'buildRocket(" . $buildPrice . ")' class='btn btn-outline-primary btn-lg btn-block'>Build (" . $buildPrice . " metals)</button>" .
 			"<label>" . $lang['YOU_HAVE'] . $_SESSION['metal'] . $lang['METALS.'] . "</label>";
 		

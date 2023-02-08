@@ -32,10 +32,14 @@ include_once 'language.php';
 			<table id = "launchPadParticipantsTable">
 			</table>
 			
+			<br/>
+			
 			<div id = "launchPadDetailsDiv">
 			</div>
 		</div>
+		
 		<br/>
+		
 		<label id="labelMessage"></label>
 		
 		<br/><br/>
@@ -140,6 +144,21 @@ function buildRocket(buildPrice) {
  	});
 }
 
+// initialize chat
+var request = $.ajax({
+	url: 'chat.php',
+	type: 'get',
+	data: { 
+		rocketId: <?php echo $_SESSION['rocketId'] ?>
+	}		
+});
+
+request.done( function ( data ) {
+	$("#chatlist").html(data);
+	var element = document.getElementById("chatlist");
+	element.scrollTop = element.scrollHeight;	
+});
+
 function addChatLine(message) {
 	$("#message").val("");
 	
@@ -175,6 +194,6 @@ function refreshChat() {
 }
 
 setInterval(refreshChat, 5000);
-refreshChat();
+
 
 </script>

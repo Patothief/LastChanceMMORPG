@@ -93,6 +93,21 @@ include_once 'language.php';
 <script>
 var countDownDate;
 
+// initialize chat
+var request = $.ajax({
+	url: 'chat.php',
+	type: 'get',
+	data: { 
+		rocketId: 0
+	}		
+});
+
+request.done( function ( data ) {
+	$("#chatlist").html(data);
+	var element = document.getElementById("chatlist");
+	element.scrollTop = element.scrollHeight;	
+});
+
 function addChatLine(message) {
 	$("#message").val("");
 	
@@ -126,7 +141,6 @@ setInterval(function refreshChat() {
 		$("#chatlist").html(data);
  	});
 }, 5000);
-
 
 // read next date
 function readNextDate() {
