@@ -21,6 +21,8 @@ $metal = 0;
 $weapons = 0;
 $message = '';
 $foundPlanet = false;
+$habitability = 0;
+
 
 if (mysqli_num_rows($result) > 0) {
     $data = mysqli_fetch_assoc($result);
@@ -72,7 +74,10 @@ if ($actions <= 0) {
 		$connection->query($sql);
 	} else if ($randomValue < 31) { // found planet
 
-		$message = $lang['FOUND'] . "planet";
+		$type = rand(1, 1000);	
+		$habitability = number_format((float)70 + log10($type)*10, 2, '.', '');
+
+		$message = $lang['FOUND'] . "planet (Habitability: " . $habitability . ")";
 		
 		$foundPlanet = true;
 	}
@@ -83,7 +88,8 @@ $_SESSION['message'] = $message;
 			
 $return_arr[] = array(
 	"message" => $message, 
-	"foundPlanet" => $foundPlanet
+	"foundPlanet" => $foundPlanet,
+	"habitability" => $habitability
 );
 				
 echo json_encode($return_arr);
