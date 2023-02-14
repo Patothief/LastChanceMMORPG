@@ -77,6 +77,8 @@ if ($actions <= 0) {
 	// 11-15 metals
 	// 16-17 weapons
 	
+	$actions = $actions - 1;
+				
 	$randomValue = rand(0, 17);
 	$searchAmount = 0;
 	
@@ -86,7 +88,7 @@ if ($actions <= 0) {
 
 		if ($connection->query($sql) === TRUE) {
 			$message = $lang['NOTHING_FOUND'];
-			$actions = $actions - 1;
+
 		} else {
 			$message = "Error updating record: " . $connection->error;
 		}
@@ -100,7 +102,6 @@ if ($actions <= 0) {
 			$message = $lang['FOUND'] . $lang['FOOD_FOUND_' . $type] . " (" . $searchAmount . " " . $lang['FOOD_SMALL'] . ")";
 
 			$food = $food + $searchAmount;
-			$actions = $actions - 1;
 		} else {
 			$message = "Error updating record: " . $connection->error;
 		}
@@ -114,7 +115,6 @@ if ($actions <= 0) {
 			$message = $lang['FOUND'] . $lang['FUEL_FOUND_' . $type] . " (" . $searchAmount . " " . $lang['FUEL_SMALL'] . ")";
 
 			$fuel = $fuel + $searchAmount;
-			$actions = $actions - 1;
 		} else {
 			$message = "Error updating record: " . $connection->error;
 		}
@@ -128,7 +128,6 @@ if ($actions <= 0) {
 			$message = $lang['FOUND'] . $lang['METALS_FOUND_' . $type] . " (" . $searchAmount . " " . $lang['METALS_SMALL'] . ")";
 
 			$metal = $metal + $searchAmount;
-			$actions = $actions - 1;
 		} else {
 			$message = "Error updating record: " . $connection->error;
 		}
@@ -142,12 +141,10 @@ if ($actions <= 0) {
 			$message = $lang['FOUND'] . $lang['WEAPONS_FOUND_' . $type] . " (" . $searchAmount . " " . $lang['WEAPONS_SMALL'] . ")";
 
 			$weapons = $weapons + $searchAmount;
-			$actions = $actions - 1;
 		} else {
 			$message = "Error updating record: " . $connection->error;
 		}		
 	}
-	
 }
 
 $_SESSION['actions'] = $actions;

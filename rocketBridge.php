@@ -24,26 +24,38 @@ include_once 'language.php';
 		<a href="?lang=hr"><img src="images/hr.png" title="Hrvatski"/></a>
 	</div>
 
-	<label class="pageLabel"><?php echo $lang['LAUNCH_PAD']; ?></label>
+	<label class="pageLabel"><?php echo $lang['ROCKET_BRIDGE']; ?></label>
 	
+    <div class="vertical-center">
+		<p class="card-text">
+			<label><?php echo $lang['ROCKET_STORY']; ?></label>
+		</p>
+
+		<label><?php echo $lang['WARNING_FUEL']; ?></label> <label id="countdownLabel"></label>
+	</div>
+
 	<div class="vertical-center">
 		<label><?php echo $lang['CREW']?></label>
 		<div>
-			<table id = "launchPadParticipantsTable">
+			<table id = "rocketParticipantsTable">
 			</table>
 			
 			<br/>
 			
-			<div id = "launchPadDetailsDiv">
+			<div id = "rocketDetailsDiv">
 			</div>
 		</div>
+		
+		<br/><br/>
+
+		<button onClick = 'scan()' class="btn btn-outline-primary btn-lg btn-block"><?php echo $lang['SCAN']; ?></button> 
 		
 		<br/>
 		
 		<label id="labelMessage"></label>
-		
-		<br/><br/>
-		<button onClick = "abandonRocket()" class='btn btn-outline-primary btn-lg btn-block'><?php echo $lang['ABANDON_LAUNCH_PAD']?></button>
+
+		<button id = 'landButton' onClick = 'land()' class="btn btn-outline-primary btn-lg btn-block btn-warning" style = "display: none">LAND</button> 
+
 		<br/>
 
 	</div>
@@ -58,13 +70,9 @@ include_once 'language.php';
 	</div>
 	
 	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php"><?php echo $lang['SHELTER']; ?></a>
+		<a class="btn btn-outline-primary btn-lg btn-block" href="shelter.php"><?php echo $lang['ROCKET_CARGO']; ?></a>
 	</div>
 	
-	<div class="vertical-center">
-		<a class="btn btn-outline-primary btn-lg btn-block" href="wilderness.php"><?php echo $lang['WILDERNESS']; ?></a>
-	</div>
-
 	<br/><br/><br/>
 	<br/><br/><br/>
 	<br/><br/><br/>
@@ -89,179 +97,104 @@ var request = $.ajax({
 });
 
 request.done(function(data) {
-	$("#launchPadParticipantsTable").html(data);
+	$("#rocketParticipantsTable").html(data);
 });
 
-// div that shows e.g. launch pad with rocket
+// div that shows e.g. rocket actions
 function buildDetailsDiv() {
 	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
+		url: 'rocketBuilder.php',
 		type: 'get',
 		dataType: 'json',
 		data: { 
-			launchPadDetailsDiv: true
+			rocketDetailsDiv: true
 		}
 	});
 
 	request.done(function(data) {
-		$("#launchPadDetailsDiv").html(data[0].content);
-		$("#image2").css('clip-path', 'inset(' + data[0].insetPercentage + '% 0px 0px 0px)');
+		$("#rocketDetailsDiv").html(data[0].content);
 	});
 }
 
 buildDetailsDiv();
 
-function abandonRocket() {
+// fuel-out date
+// read next date
+function readNextDate() {
   	var request = $.ajax({
-   		url: 'launchPadData.php',
+   		url: 'gameState.php',
    		type: 'get',
-		data: { 
-			abandonRocket: true
-		}
-	});
- 	
- 	request.done(function(data) {
-		window.location.href = "launchPadController.php";
- 	});
-}
-
-function buildRocket(buildPrice) {
-	
-	if (buildPrice > <?php echo $_SESSION['metal'] ?>) {
-		$("#labelMessage").text('<?php echo $lang['NOT_ENOUGH_METALS'] ?>');
-		return;
-	}
-	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			buildRocket: true,
-			buildPrice: buildPrice
-		}
+   		dataType: 'json'		
 	});
  	
  	request.done( function ( data ) {
-		buildDetailsDiv();
+		// Set the date we're counting down to
+		countDownDate = new Date(Date.parse(data[0].next_date));
  	});
 }
+setInterval(readNextDate, 10000);
 
-function loadFood(amount) {
+readNextDate();
+
+// refresh countdown label
+function refreshCountdownLabel() {
+	// Get today's date and time
+	var now = new Date().getTime();
+
+	// Find the distance between now and the count down date
+	var distance = countDownDate - now;
+
+	// Time calculations for days, hours, minutes and seconds
+	var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+	// Display the result in the element with id="countdownLabel"
 	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			loadFood: true,
-			amount: amount
-		}
-	});
- 	
- 	request.done(function(data) {
-		buildDetailsDiv();
- 	});
-}
-
-function unloadFood(amount) {
+	var countDownText;
 	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			unloadFood: true,
-			amount: amount
-		}
-	});
- 	
- 	request.done(function(data) {
-		buildDetailsDiv();
- 	});
-}
-
-
-function loadFuel(amount) {
-	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			loadFuel: true,
-			amount: amount
-		}
-	});
- 	
- 	request.done(function(data) {
-		buildDetailsDiv();
- 	});
-}
-
-function unloadFuel(amount) {
-	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			unloadFuel: true,
-			amount: amount
-		}
-	});
- 	
- 	request.done(function(data) {
-		buildDetailsDiv();
- 	});
-}
-
-function loadWeapons(amount) {
-	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			loadWeapons: true,
-			amount: amount
-		}
-	});
- 	
- 	request.done(function(data) {
-		buildDetailsDiv();
- 	});
-}
-
-function unloadWeapons(amount) {
-	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
-   		type: 'get',
-		data: { 
-			unloadWeapons: true,
-			amount: amount
-		}
-	});
- 	
- 	request.done(function(data) {
-		buildDetailsDiv();
- 	});
-}
-
-function launchRocket(fuel, launchFuel) {
-	if (fuel < launchFuel) {
-		$("#labelMessage").text('<?php echo $lang['NOT_ENOUGH_FUEL'] ?>');
-		return;
+	if (days > 0) {
+		countDownText = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+	} else if (hours > 0) {
+		countDownText = hours + "h " + minutes + "m " + seconds + "s ";
+	} else if (minutes > 0) {
+		countDownText = minutes + "m " + seconds + "s ";
+	} else if (seconds > 0) {
+		countDownText = seconds + "s ";
+	} else {
+		//clearInterval(y);
+		countDownText = "0s";
 	}
 	
-	var request = $.ajax({
-		url: 'launchPadJoinedBuilder.php',
+	document.getElementById("countdownLabel").innerHTML =  countDownText;
+}
+var y = setInterval(refreshCountdownLabel, 1000);
+
+// scan
+function scan() {
+  	var request = $.ajax({
+   		url: 'scan.php',
    		type: 'get',
-		data: { 
-			launchRocket: true
-		}
-	});
+   		dataType: 'json'
+ 	});
  	
  	request.done( function ( data ) {
-		window.location.href = "rocketBridge.php";
+		//console.log(data);
+		
+		if (data.length > 0) {
+			var message = data[0].message;
+			
+			$('#labelMessage').text(message);
+			
+			if (data[0].foundPlanet) {
+				$('#landButton').show();
+			} else {
+				$('#landButton').hide();
+			}
+		}
  	});
 }
-
 
 // initialize chat
 var request = $.ajax({

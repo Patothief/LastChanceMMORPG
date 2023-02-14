@@ -49,14 +49,14 @@
 				
 				assignSessionVariables($row);
 
-				header("Location: shelter.php");
+				header("Location: pageController.php");
             } else {
 				$row = mysqli_fetch_array($query);
 				
 				if (password_verify($password_signin, $row['password'])) {
 					assignSessionVariables($row);
 					
-					header("Location: shelter.php");
+					header("Location: pageController.php");
 				} else {
 					$passwordErr = '<div class="alert alert-danger">' . $lang['PASSWORD_IS_INCORRECT'] . '</div>';			
 				}

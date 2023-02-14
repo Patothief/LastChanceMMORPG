@@ -51,7 +51,7 @@
 		}
 	
 		$insertId = mysqli_insert_id($connection);
-		// Attempt insert query execution
+
 		$sql = "UPDATE player SET rocket_id=" . $insertId . ", rocket_role = 4, metal = metal - " . $rocketPrice . " WHERE id = '" . $_SESSION['playerId'] . "'";
 
 		if(!mysqli_query($connection, $sql)) {

@@ -127,7 +127,7 @@ if (isset($_GET['launchPadDetailsDiv'])) {
 			"Min launch fuel: " . $launch_fuel . "<br/><br/>";
 			
 			
-		$content .= "<button onClick = 'abandonRocket()' class='btn btn-outline-primary btn-lg btn-block btn-warning'>LAUNCH</button>";
+		$content .= "<button onClick = 'launchRocket(" . $fuel . ", " . $launch_fuel . ")' class='btn btn-outline-primary btn-lg btn-block btn-warning'>LAUNCH</button>";
 	}
 	
 	$return_arr[] = array("content" => $content,
@@ -168,6 +168,32 @@ if (isset($_GET['buildRocket'])) {
 		$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $_SESSION['rocketId'] . ", 'Rocket built and ready for loading.')";
 		$connection->query($sql);
 	}
+}
+
+if (isset($_GET['launchRocket'])) {
+	
+	$sql = "SELECT rocket.fuel AS fuel, rocket_type.launch_fuel as launch_fuel " .
+			"FROM rocket JOIN rocket_type ON rocket.rocket_type_id = rocket_type.id WHERE rocket.id = " . $_SESSION['rocketId'];
+		
+	$run = $connection->query($sql);
+	$row = $run->fetch_array();
+
+	$fuel = $row['fuel'];
+	$launchFuel = $row['launch_fuel'];
+
+	if ($fuel < $launchFuel) {
+		echo "ERROR: Not enough fuel but javascript check passed!!!";
+		exit();
+	}
+	
+	$sql = "UPDATE rocket SET state = 2, fuel = fuel - " . $launchFuel . " WHERE id = " . $_SESSION['rocketId'];
+	$connection->query($sql);
+	
+	$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, " . $_SESSION['rocketId'] . ", 'Rocket launched!')";
+	$connection->query($sql);
+
+	$sql = "INSERT INTO chat (player_id, rocket_id, message) VALUES (0, 0, 'Rocket " . $rocketName . " launched into space!')";
+	$connection->query($sql);
 }
 
 if (isset($_GET['loadFood'])) {
