@@ -189,11 +189,17 @@ function scan() {
 			
 			if (data[0].foundPlanet) {
 				$('#landButton').show();
+				$('#landButton').attr('habitability', data[0].habitability);
 			} else {
 				$('#landButton').hide();
 			}
 		}
  	});
+}
+
+// land
+function land() {
+	$(location).attr('landingPage.php',url);
 }
 
 // initialize chat
